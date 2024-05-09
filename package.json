@@ -1,15 +1,27 @@
 {
   "name": "form-finder",
   "version": "1.0.0",
+  "homepage": "https://github.com/drementer/form-finder",
   "description": "",
-  "main": "index.js",
+  "source": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "drementer <klncarslanburak@gmail.com> (https://github.com/drementer)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drementer/form-finder"
+  },
+  "bugs": {
+    "url": "https://github.com/drementer/form-finder/issues"
+  },
+  "license": "MIT",
   "dependencies": {
     "axios": "^1.6.8",
     "node-html-parser": "^6.1.13"
+  },
+  "devDependencies": {
+    "@parcel/resolver-glob": "^2.9.3",
+    "parcel": "^2.9.3"
   }
 }
