@@ -4,8 +4,6 @@ const extractLinks = require('./extractLinks');
 
 const listLinks = async (url, visitedLinks = new Set()) => {
   try {
-    if (visitedLinks.has(url)) return visitedLinks;
-
     const page = await getPage(url);
     const links = extractLinks(page).filter((link) => filterLink(url, link));
 
