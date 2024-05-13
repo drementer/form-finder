@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
     return res.status(400).json({
       status: false,
       error: `The 'Site' parameter is required!'`,
-      data: [],
+      data: null,
     });
   }
 
@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({
       status: false,
       error: `Error processing request: ${error.message}`,
-      data: [],
+      data: null,
     });
   }
 });
