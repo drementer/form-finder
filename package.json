@@ -4,10 +4,10 @@
   "homepage": "https://github.com/drementer/form-finder",
   "description": "",
   "source": "app/app.js",
-	"main": "app.js",
   "scripts": {
-		"dev": "nodemon app/app.js",
-		"start": "node app/app.js"
+    "dev": "nodemon app/app.js",
+    "vercel": "vercel dev",
+    "start": "node app.js"
   },
   "author": "drementer <klncarslanburak@gmail.com> (https://github.com/drementer)",
   "repository": {
@@ -24,8 +24,6 @@
     "node-html-parser": "^6.1.13"
   },
   "devDependencies": {
-    "@parcel/resolver-glob": "^2.9.3",
-    "nodemon": "^3.1.0",
-    "parcel": "^2.9.3"
+    "nodemon": "^3.1.0"
   }
 }
