@@ -10,7 +10,7 @@ const timeLog = (req, res, next) => {
 };
 
 app.use(timeLog);
-app.use('/pages', pages);
+app.use('/api/pages', pages);
 
 app.listen(port, () => console.log(`APP ON: http://localhost:${port}`));
 
