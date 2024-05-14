@@ -7,7 +7,7 @@
   "scripts": {
 		"dev": "nodemon app/app.js",
 		"start": "vercel dev",
-		"build": "node app/app.js"
+		"build": "vercel"
   },
   "author": "drementer <klncarslanburak@gmail.com> (https://github.com/drementer)",
   "repository": {
