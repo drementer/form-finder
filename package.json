@@ -4,10 +4,10 @@
   "homepage": "https://github.com/drementer/form-finder",
   "description": "",
   "source": "app/app.js",
+	"main": "app.js",
   "scripts": {
 		"dev": "nodemon app/app.js",
-		"start": "vercel dev",
-		"build": "vercel"
+		"start": "node app/app.ts"
   },
   "author": "drementer <klncarslanburak@gmail.com> (https://github.com/drementer)",
   "repository": {
