@@ -13,3 +13,5 @@ app.use(timeLog);
 app.use('/pages', pages);
 
 app.listen(port, () => console.log(`APP ON: http://localhost:${port}`));
+
+module.exports = app;
