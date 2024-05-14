@@ -6,8 +6,7 @@
   "source": "app/app.js",
   "scripts": {
     "dev": "nodemon app/app.js",
-    "vercel": "vercel dev",
-    "start": "node app.js"
+    "vercel": "vercel dev"
   },
   "author": "drementer <klncarslanburak@gmail.com> (https://github.com/drementer)",
   "repository": {
