@@ -1,4 +1,7 @@
 {
   "version": 2,
-  "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
+  "rewrites": [
+		{ "source": "/(.*)", "destination": "/public" },
+		{ "source": "/api/(.*)", "destination": "/api" }
+	]
 }
