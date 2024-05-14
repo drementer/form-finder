@@ -7,7 +7,7 @@
 	"main": "app.js",
   "scripts": {
 		"dev": "nodemon app/app.js",
-		"start": "node app/app.ts"
+		"start": "node app/app.js"
   },
   "author": "drementer <klncarslanburak@gmail.com> (https://github.com/drementer)",
   "repository": {
