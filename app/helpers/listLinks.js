@@ -1,25 +1,31 @@
-const filterLink = require('./filterLink');
 const getPage = require('./getPage');
+const filterLink = require('./filterLink');
 const extractLinks = require('./extractLinks');
 
 const listLinks = async (url, visitedLinks = new Set()) => {
   try {
     const page = await getPage(url);
-    const links = extractLinks(page).filter((link) => filterLink(url, link));
+    const links = extractLinks(page);
+
+    console.log('------------------');
+    console.log('📌 ~ links ->', links);
+    console.log('📌 ~ visitedLinks ->', visitedLinks);
 
     visitedLinks.add(url);
 
-    const absoluteLinks = links
-      .map((link) => new URL(link, url).href)
+    const validLinks = links
+      .filter((link) => !link.includes(' '))
+      .filter((link) => filterLink(url, link))
+      .map((link) => new URL(link, url).href || null)
       .filter((link) => !visitedLinks.has(link));
 
-    await Promise.all(
-      absoluteLinks.map((link) => listLinks(link, visitedLinks))
-    );
+    console.log('📌 ~ validLinks ->', validLinks);
 
-    return visitedLinks;
+    await Promise.all(validLinks.map((link) => listLinks(link, visitedLinks)));
   } catch (error) {
-    throw new Error(`Failed to process ${url}: ${error.message}`);
+    console.log('📌 ~ error ->', error);
+  } finally {
+    return visitedLinks;
   }
 };
 
