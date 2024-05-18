@@ -13,9 +13,11 @@ router.get('/', async (req, res) => {
       data: null,
     });
   }
+  console.time('Execution time');
 
   try {
     const visitedLinks = await listLinks(site);
+
     res.status(200).json({
       status: true,
       error: null,
@@ -28,6 +30,8 @@ router.get('/', async (req, res) => {
       data: null,
     });
   }
+
+  console.timeEnd('Execution time');
 });
 
 module.exports = router;
