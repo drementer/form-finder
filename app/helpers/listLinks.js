@@ -14,16 +14,15 @@ const listLinks = async (url, visitedLinks = new Set()) => {
     visitedLinks.add(url);
 
     const validLinks = links
-      .filter((link) => !link.includes(' '))
       .filter((link) => filterLink(url, link))
-      .map((link) => new URL(link, url).href || null)
+      .map((link) => new URL(link, url).href)
       .filter((link) => !visitedLinks.has(link));
 
     console.log('📌 ~ validLinks ->', validLinks);
 
     await Promise.all(validLinks.map((link) => listLinks(link, visitedLinks)));
   } catch (error) {
-    console.log('📌 ~ error ->', error);
+    throw new Error(`Failed to list links: ${error.message}`);
   } finally {
     return visitedLinks;
   }
