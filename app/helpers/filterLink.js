@@ -13,7 +13,7 @@ const ignorePatterns = [
   '^mailto:',
   'admin',
   'login',
-  'register'
+  'register',
 ];
 
 const regexIgnores = new RegExp(ignorePatterns.join('|'), 'i');
