@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-export default async (url) => {
+const getPage = async (url) => {
   try {
     const page = await axios.get(url);
     return page.data;
@@ -8,3 +8,5 @@ export default async (url) => {
     throw new Error(`Failed to fetch page: ${url} - ${error.message}`);
   }
 };
+
+module.exports = getPage;
