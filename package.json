@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "homepage": "https://github.com/drementer/form-finder",
   "description": "",
-  "source": "api/app.js",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
-    "dev": "nodemon api/app.js",
-    "vercel": "vercel dev"
+    "dev:nodemon": "nodemon api/app.js",
+    "dev:vercel": "vercel dev",
+    "dev:parcel": "parcel src/*.html --open --lazy --no-cache",
+    "build:parcel": "parcel build src/*.html --no-source-maps --no-cache --dist-dir public"
   },
   "author": "drementer <klncarslanburak@gmail.com> (https://github.com/drementer)",
   "repository": {
@@ -20,10 +22,12 @@
   "dependencies": {
     "axios": "^1.6.8",
     "express": "^4.19.2",
-    "node-html-parser": "^6.1.13",
-    "vercel": "^34.2.0"
+    "node-html-parser": "^6.1.13"
   },
   "devDependencies": {
-    "nodemon": "^3.1.0"
+		"nodemon": "^3.1.0",
+    "parcel": "^2.12.0",
+    "@parcel/transformer-sass": "^2.12.0",
+    "vercel": "^34.2.0"
   }
 }
