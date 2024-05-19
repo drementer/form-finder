@@ -1,5 +1,4 @@
-const getPage = require('./getPage');
-
+import getPage from './getPage';
 import filterLink from './filterLink';
 import extractLinks from './extractLinks';
 
