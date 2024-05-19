@@ -2,7 +2,7 @@ import getPage from './getPage';
 import filterLink from './filterLink';
 import extractLinks from './extractLinks';
 
-const listLinks = async (url, visitedLinks = new Set()) => {
+const listLinks = async (url, visitedLinks = new Set(), errorList = []) => {
   try {
     const page = await getPage(url);
     const links = extractLinks(page);
@@ -20,12 +20,14 @@ const listLinks = async (url, visitedLinks = new Set()) => {
 
     console.log('📌 ~ validLinks ->', validLinks);
 
-    await Promise.all(validLinks.map((link) => listLinks(link, visitedLinks)));
+    await Promise.all(
+      validLinks.map((link) => listLinks(link, visitedLinks, errorList))
+    );
   } catch (error) {
-    throw new Error(`Failed to list links: ${error.message}`);
-  } finally {
-    return visitedLinks;
+    errorList.push({ message: error.message, page: url });
   }
+
+  return { visitedLinks, errorList };
 };
 
 export default listLinks;
