@@ -3,7 +3,11 @@
 [Dd]esktop.ini
 
 # Project
-node_modules/
 .parcel-cache/
-package-lock.json
 .vercel
+node_modules/
+package-lock.json
+
+# Local Environment
+public/
+dist/
