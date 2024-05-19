@@ -25,11 +25,9 @@ const isSameDomain = (parentUrl, childUrl) => {
   return new URL(parentUrl).hostname === new URL(childUrl).hostname;
 };
 
-const filterLink = (parent, href) => {
+export default (parent, href) => {
   if (isIgnoredLink(href)) return null;
   if (isExternalLink(href)) return isSameDomain(parent, href) ? href : null;
 
   return new URL(href, parent).href;
 };
-
-module.exports = filterLink;

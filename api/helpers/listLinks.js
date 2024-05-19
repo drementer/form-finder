@@ -1,6 +1,7 @@
 const getPage = require('./getPage');
-const filterLink = require('./filterLink');
-const extractLinks = require('./extractLinks');
+
+import filterLink from './filterLink';
+import extractLinks from './extractLinks';
 
 const listLinks = async (url, visitedLinks = new Set(), errorList = []) => {
   try {
