@@ -1,11 +1,36 @@
 {
-  "version": 2,
+  "public": false,
+
+  "cleanUrls": true,
+  "trailingSlash": false,
+
   "builds": [
-    { "src": "**/*.js", "use": "@vercel/node" },
+    { "src": "api/**", "use": "@vercel/node" },
     { "src": "public/**", "use": "@vercel/static" }
   ],
+
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "app/app.js" },
+    { "source": "/api/(.*)", "destination": "api/app.js" },
     { "source": "/(.*)", "destination": "public/$1" }
+  ],
+
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
   ]
 }
