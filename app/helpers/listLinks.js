@@ -1,6 +1,6 @@
-const getPage = require('./getPage');
-const filterLink = require('./filterLink');
-const extractLinks = require('./extractLinks');
+import getPage from './getPage';
+import filterLink from './filterLink';
+import extractLinks from './extractLinks';
 
 const listLinks = async (url, visitedLinks = new Set()) => {
   try {
@@ -28,4 +28,4 @@ const listLinks = async (url, visitedLinks = new Set()) => {
   }
 };
 
-module.exports = listLinks;
+export default listLinks;
