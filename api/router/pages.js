@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const listLinks = require('../helpers/listLinks');
+import listLinks from '../helpers/listLinks';
 
 router.get('/', async (req, res) => {
   const { site } = req.query;

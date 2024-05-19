@@ -30,4 +30,4 @@ const listLinks = async (url, visitedLinks = new Set(), errorList = []) => {
   return { visitedLinks, errorList };
 };
 
-module.exports = listLinks;
+export default listLinks;
