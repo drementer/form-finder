@@ -4,34 +4,40 @@ const router = express.Router();
 import listLinks from '../helpers/listLinks';
 
 router.get('/', async (req, res) => {
-  const site = req.query.site;
+  const { site } = req.query;
+  const startTime = Date.now();
+
+  const response = {
+    status: true,
+    statusCode: 200,
+    errors: [],
+    executionTime: '',
+    uniqueLinks: null,
+  };
 
   if (!site) {
     return res.status(400).json({
       status: false,
-      error: `The 'Site' parameter is required!'`,
+      statusCode: 400,
+      errors: [{ message: `The 'Site' parameter is required!'` }],
+      executionTime: null,
       data: null,
     });
   }
-  console.time('Execution time');
 
   try {
-    const visitedLinks = await listLinks(site);
+    const { visitedLinks, errorList } = await listLinks(site);
 
-    res.status(200).json({
-      status: true,
-      error: null,
-      data: [...visitedLinks],
-    });
+    response.errors = errorList;
+    response.uniqueLinks = [...visitedLinks];
   } catch (error) {
-    res.status(500).json({
-      status: false,
-      error: `Error processing request: ${error.message}`,
-      data: null,
-    });
+    response.status = false;
+    response.statusCode = 500;
+    response.errors = [{ message: error.message, page: site }];
   }
 
-  console.timeEnd('Execution time');
+  response.executionTime = `${Date.now() - startTime}ms`;
+  res.status(response.statusCode).json(response);
 });
 
 module.exports = router;
