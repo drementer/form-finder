@@ -1,0 +1,9 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__item {
+    padding: 0.5rem 0.875rem;
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,169 @@
+/// A collection of media breakpoints.
+///
+/// @type Map
+///
+/// @require px2em
+///
+$breakpoints: (
+  xs: px2em(360),
+  sm: px2em(576),
+  md: px2em(768),
+  lg: px2em(992),
+  xl: px2em(1200),
+  ul: px2em(1400),
+) !default;
+
+/// @type String
+$media-type: screen !default;
+
+/// @type boolean
+$debug-mode: true !default;
+
+/// @type Map
+$debug-breakpoints: $breakpoints !default;
+
+/// Retrieves the value of a breakpoint from the breakpoints map.
+///
+/// @param {String} $value - The key or value of the breakpoint.
+///
+/// @access private
+///
+/// @return {Number} The corresponding value of the breakpoint.
+///
+@function get-breakpoint($value) {
+  @if map-has-key($breakpoints, $value) {
+    @return map-get($breakpoints, $value);
+  }
+
+  @error '#{$value} does not exist in $breakpoints!!!';
+}
+
+/// Checks the provided value and converts it to a valid breakpoint value.
+///
+/// @param {String|Number} $value - The value to check.
+///
+/// @access private
+///
+/// @return {Number} The valid breakpoint value.
+///
+@function get-value($value) {
+  @if $value == null or $value == '' {
+    @return false;
+  }
+
+  @if type-of($value) == string {
+    $value: get-breakpoint($value);
+  }
+
+  @if unitless($value) {
+    $value: $value * 1px;
+  }
+
+  @return $value;
+}
+
+/// Generates a media query mixin based on the provided minimum and maximum breakpoints.
+///
+/// @param {Number|Null} $min - The minimum breakpoint value.
+/// @param {Number|Null} $max - The maximum breakpoint value.
+///
+/// @example
+/// // Usage 1: Only minimum breakpoint
+/// // When the screen size is medium or larger
+/// mq(md) {
+///   // Styles for medium and larger screens
+///   color: blue;
+/// }
+///
+/// // Usage 2: Both minimum and maximum breakpoints
+/// // When the screen size is small to extra-large
+/// mq(sm, xl) {
+///   // Styles for small to extra-large screens
+///   font-size: 16px;
+/// }
+///
+/// // Usage 3: Only maximum breakpoint
+/// // When the screen size is smaller than extra-large
+/// mq(null, xl) {
+///   // Styles for screens smaller than extra-large
+///   background: lightgray;
+/// }
+///
+@mixin mq($min: null, $max: null, $and: null, $media-type: $media-type) {
+  $min-width: get-value($min);
+  $max-width: get-value($max);
+  $media-query: ();
+
+  @if $min-width {
+    $media-query: join($media-query, '(min-width: #{$min-width})', auto);
+  }
+
+  @if $max-width {
+    $media-query: join($media-query, '(max-width: #{$max-width - 0.01})', auto);
+  }
+
+  @if $min-width and $max-width {
+    $media-query: '#{nth($media-query, 1)} and #{nth($media-query, 2)}';
+  }
+
+  @if length($media-query) == 0 {
+    @error 'No valid breakpoints provided!!!';
+  }
+
+  @if $and {
+    $media-query: '#{$media-query} and #{$and}';
+  }
+
+  @if $media-type {
+    $media-query: '#{$media-type} and #{$media-query}';
+  }
+
+  @media #{$media-query} {
+    @content;
+  }
+}
+
+@mixin min-mq($min) {
+  @include mq($min, null) {
+    @content;
+  }
+}
+
+@mixin max-mq($max) {
+  @include mq(null, $max) {
+    @content;
+  }
+}
+
+@if $debug-mode {
+  $firstBreakpoint: nth(map-keys($debug-breakpoints), 1);
+  $firstBreakpointValue: nth(map-values($debug-breakpoints), 1);
+
+  body::after {
+    z-index: 99;
+    content: '< (#{$firstBreakpoint} >= #{$firstBreakpointValue})';
+
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+
+    margin: 0.5rem auto;
+    padding: 0.5rem 1.2rem;
+
+    width: fit-content;
+
+    font-size: 0.875rem;
+    color: hsl(0, 0%, 100%);
+
+    border: 1px solid hsl(0, 0%, 100%);
+    border-radius: 5rem;
+    background-color: hsl(308, 100%, 50%);
+
+    @each $name, $value in $debug-breakpoints {
+      @include mq($name) {
+        content: '#{$name} >= #{$value}';
+      }
+    }
+  }
+}

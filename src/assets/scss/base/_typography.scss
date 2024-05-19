@@ -1,0 +1,37 @@
+html {
+  font-family: $root-font-family;
+  font-size: $root-font-size--mobile;
+
+  @include mq(lg) {
+    font-size: $root-font-size;
+  }
+}
+
+/// 1.250 Major Third
+///
+/// @type map
+/// @access private
+///
+/// @link https://type-scale.com/
+$font-scales: (
+  'h1': 3.815,
+  'h2': 3.052,
+  'h3': 2.441,
+  'h4': 1.953,
+  'h5': 1.563,
+  'h6': 1.25,
+  'a': 1,
+  'p': 1,
+  'label': 0.875,
+) !default;
+
+@each $element, $font-value in $font-scales {
+  #{$element} {
+    font-size: $font-value * 1rem;
+  }
+}
+
+::selection {
+  color: hsl(0, 0%, 100%);
+  background-color: hsl(0, 0%, 0%);
+}

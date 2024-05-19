@@ -1,0 +1,68 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  background-repeat: no-repeat;
+}
+
+::before,
+::after {
+  text-decoration: inherit;
+  vertical-align: inherit;
+}
+
+:where(html) {
+  scroll-behavior: smooth;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+
+  -webkit-tap-highlight-color: hsla(0, 0%, 0%, 0);
+  -webkit-tap-highlight-color: transparent;
+}
+
+:where(body) {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+:where(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  padding: 0;
+
+  font-weight: normal;
+  text-transform: capitalize;
+}
+
+::placeholder {
+  color: inherit;
+  opacity: 0.54;
+}
+
+:where(img, picture, video, canvas, svg) {
+  display: block;
+  max-width: 100%;
+}
+
+:where(button, input, select, textarea) {
+  font: inherit;
+}
+
+:where(textarea) {
+  resize: vertical;
+}
+
+:where(iframe) {
+  border: 0;
+}
+
+:where(table) {
+  border-collapse: collapse;
+}
+
+:where(td, th) {
+  padding: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
