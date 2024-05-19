@@ -9,5 +9,4 @@ node_modules/
 package-lock.json
 
 # Local Environment
-public/
 dist/
