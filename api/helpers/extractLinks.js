@@ -1,8 +1,8 @@
-const HTMLParser = require('node-html-parser');
+import { parse } from 'node-html-parser';
 
 export default (html) => {
   try {
-    const parsedHtml = HTMLParser.parse(html);
+    const parsedHtml = parse(html);
     const anchorTags = parsedHtml.querySelectorAll('a');
 
     return anchorTags.map((anchor) => anchor.getAttribute('href'));
