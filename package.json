@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "homepage": "https://github.com/drementer/form-finder",
   "description": "",
-  "source": "app/app.js",
+  "source": "api/app.js",
   "scripts": {
-    "dev": "nodemon app/app.js",
+    "dev": "nodemon api/app.js",
     "vercel": "vercel dev"
   },
   "author": "drementer <klncarslanburak@gmail.com> (https://github.com/drementer)",
