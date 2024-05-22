@@ -1,29 +1,20 @@
 /// Color pallette
 $white: hsl(0, 0%, 100%) !default;
-$white--100: tint($white, 80%) !default;
-$white--200: tint($white, 60%) !default;
-$white--300: tint($white, 40%) !default;
-$white--400: tint($white, 20%) !default;
-$white--500: $white !default;
-$white--600: shade($white, 20%) !default;
-$white--700: shade($white, 40%) !default;
-$white--800: shade($white, 60%) !default;
-$white--900: shade($white, 80%) !default;
-
+$gallery: hsl(0, 0%, 93%) !default;
+$mine-shaft: hsl(0, 0%, 20%) !default;
 $black: hsl(0, 0%, 0%) !default;
-$black--100: tint($black, 80%) !default;
-$black--200: tint($black, 60%) !default;
-$black--300: tint($black, 40%) !default;
-$black--400: tint($black, 20%) !default;
-$black--500: $black !default;
-$black--600: shade($black, 20%) !default;
-$black--700: shade($black, 40%) !default;
-$black--800: shade($black, 60%) !default;
-$black--900: shade($black, 80%) !default;
+$purple-pizzazz: rgb(255, 0, 221) !default;
+
+$text-gradient: linear-gradient(
+  0deg,
+  $mine-shaft 0%,
+  $gallery 30%,
+  $gallery 100%
+);
 
 /// Typography
 /// @type string | list
-$root-font-family: 'Fira Code' !default;
+$root-font-family: 'DM Sans', sans-serif !default;
 
 /// @type stirng
 $root-font-size: 16px !default;
@@ -31,6 +22,37 @@ $root-font-size: 16px !default;
 /// @type stirng
 /// @alias root-font-size
 $root-font-size--mobile: 14px !default;
+
+%display-xl {
+  @include font-size(100px);
+  line-height: 1;
+  font-weight: 700;
+}
+%display-l {
+  @include font-size(70px);
+  line-height: 1;
+  font-weight: 700;
+}
+%display-m {
+  @include font-size(50px);
+  font-weight: 700;
+}
+%display-s {
+  @include font-size(32px);
+  font-weight: 700;
+}
+%display-xs {
+  @include font-size(25px);
+}
+
+%text-l {
+  @include font-size(18px);
+  font-weight: 400;
+}
+%text-m {
+  @include font-size(18px);
+  font-weight: 400;
+}
 
 /// cubic-bezier Timing Functions
 $ease-in-quad: cubic-bezier(0.55, 0.085, 0.68, 0.53);
