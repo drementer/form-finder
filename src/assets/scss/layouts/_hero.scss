@@ -1,0 +1,10 @@
+.hero {
+  @include margin(10rem 0 0);
+  @include padding(5rem 3rem);
+
+  text-align: center;
+
+  p {
+    text-wrap: balance;
+  }
+}
