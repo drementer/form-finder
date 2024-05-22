@@ -7,7 +7,7 @@
   "scripts": {
     "dev:nodemon": "nodemon api/app.js",
     "dev:vercel": "vercel dev",
-    "dev:parcel": "parcel src/*.html --open --lazy --no-cache",
+    "dev:parcel": "parcel src/*.html --open --lazy",
     "build:parcel": "parcel build src/*.html --no-source-maps --no-cache --dist-dir public"
   },
   "author": "drementer <klncarslanburak@gmail.com> (https://github.com/drementer)",
