@@ -58,19 +58,38 @@
   <body>
     <div id="root" class="root" root>
       <div class="app" app>
-        <section class="hero">
-          <div class="container">
-            <h1 class="display -text-gradient">
-              <span class="-color-purple">Crawl</span> your site in seconds
-            </h1>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio quas
-              quod ex perferendis, consequuntur sint alias ipsam architecto quo
-              dolorem ratione. Eum deserunt consequatur ut dolorum, inventore
-              ratione libero id.
-            </p>
-          </div>
-        </section>
+                <div class="search-bar">
+                  <span class="search-bar__protocol">http://</span>
+                  <input
+                    class="search-bar__input"
+                    type="search"
+										name="url"
+                    placeholder="www.kilincarslan.dev"
+										autocomplete="off"
+                  />
+                  <button
+                    class="search-bar__button"
+                    type="submit"
+                    title="search"
+                  >
+                    <svg
+                      class="search-bar__icon"
+                      width="25"
+                      height="25"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      stroke="white"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M9.16667 15.8333C12.8486 15.8333 15.8333 12.8486 15.8333 9.16667C15.8333 5.48477 12.8486 2.5 9.16667 2.5C5.48477 2.5 2.5 5.48477 2.5 9.16667C2.5 12.8486 5.48477 15.8333 9.16667 15.8333Z"
+                      />
+                      <path d="M17.5 17.5L13.9167 13.9167" />
+                    </svg>
+                  </button>
+                </div>
       </div>
     </div>
   </body>
