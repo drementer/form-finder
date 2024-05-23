@@ -1,6 +1,6 @@
-import { parse } from 'node-html-parser';
+const { parse } = require('node-html-parser');
 
-export default (html) => {
+const extractLinks = (html) => {
   try {
     const parsedHtml = parse(html);
     const anchorTags = parsedHtml.querySelectorAll('a');
@@ -10,3 +10,5 @@ export default (html) => {
     throw new Error(`Error parsing HTML: ${error.message}`);
   }
 };
+
+module.exports = extractLinks;
