@@ -20,7 +20,7 @@ const listLinks = async (url, visitedLinks = new Set(), errorList = []) => {
 
     console.log('📌 ~ validLinks ->', validLinks);
 
-    await Promise.all(
+		await Promise.allSettled(
       validLinks.map((link) => listLinks(link, visitedLinks, errorList))
     );
   } catch (error) {
