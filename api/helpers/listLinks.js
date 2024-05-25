@@ -2,32 +2,37 @@ const getPage = require('./getPage');
 const filterLink = require('./filterLink');
 const extractLinks = require('./extractLinks');
 
-const listLinks = async (url, visitedLinks = new Set(), errorList = []) => {
+const listLinks = async (res, url, visitedLinks = new Set()) => {
   try {
+    if (visitedLinks.has(url)) return;
+
+    console.log('📌 ~ url ->', url);
+    console.log('📌 ~ has visited before ->', visitedLinks.has(url));
+
+    visitedLinks.add(url);
+    res.write(`event: New Link\n`);
+    res.write(`data: ${url}\n\n`);
+
     const page = await getPage(url);
     const links = extractLinks(page);
 
-    console.log('------------------');
-    console.log('📌 ~ links ->', links);
-    console.log('📌 ~ visitedLinks ->', visitedLinks);
-
-    visitedLinks.add(url);
-
     const validLinks = links
       .filter((link) => filterLink(url, link))
-      .map((link) => new URL(link, url).href)
-      .filter((link) => !visitedLinks.has(link));
+      .map((link) => new URL(link, url).href);
 
-    console.log('📌 ~ validLinks ->', validLinks);
-
-		await Promise.allSettled(
-      validLinks.map((link) => listLinks(link, visitedLinks, errorList))
+    await Promise.allSettled(
+      validLinks.map((link) => listLinks(res, link, visitedLinks))
     );
   } catch (error) {
-    errorList.push({ message: error.message, page: url });
+    res.write(`event: Error\n`);
+    res.write(
+      `data: ${JSON.stringify({
+        message: error.message,
+        page: url,
+        link: error.input,
+      })}\n\n`
+    );
   }
-
-  return { visitedLinks, errorList };
 };
 
 module.exports = listLinks;
