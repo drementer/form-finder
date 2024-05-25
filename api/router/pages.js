@@ -3,41 +3,25 @@ const router = express.Router();
 
 const listLinks = require('../helpers/listLinks');
 
+router.use((req, res, next) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+
+  next();
+});
+
 router.get('/', async (req, res) => {
   const { site } = req.query;
-  const startTime = Date.now();
 
-  const response = {
-    status: true,
-    statusCode: 200,
-    errors: [],
-    executionTime: '',
-    uniqueLinks: null,
-  };
+  res.write('data: Connected\n\n');
 
-  if (!site) {
-    return res.status(400).json({
-      status: false,
-      statusCode: 400,
-      errors: [{ message: `The 'Site' parameter is required!'` }],
-      executionTime: null,
-      data: null,
-    });
-  }
+  req.on('close', () => {
+    console.log('Client disconnected');
+  });
 
-  try {
-    const { visitedLinks, errorList } = await listLinks(site);
-
-    response.errors = errorList;
-    response.uniqueLinks = [...visitedLinks];
-  } catch (error) {
-    response.status = false;
-    response.statusCode = 500;
-    response.errors = [{ message: error.message, page: site }];
-  }
-
-  response.executionTime = `${Date.now() - startTime}ms`;
-  res.status(response.statusCode).json(response);
+  await listLinks(res, site);
+  res.end();
 });
 
 module.exports = router;
