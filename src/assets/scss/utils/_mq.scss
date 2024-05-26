@@ -17,7 +17,7 @@ $breakpoints: (
 $media-type: screen !default;
 
 /// @type boolean
-$debug-mode: true !default;
+$debug-mode: false !default;
 
 /// @type Map
 $debug-breakpoints: $breakpoints !default;
