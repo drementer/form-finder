@@ -15,7 +15,10 @@ router.use((req, res, next) => {
 router.get('/', async (req, res) => {
   const { site } = req.query;
 
-  await listLinks(res, site);
+  const { visitedLinks, errorList } = await listLinks(res, site);
+
+  console.log('📌 ~ visitedLinks ->', visitedLinks);
+  console.log('📌 ~ errorList ->', errorList);
 
   createEvent(res, 'Close Connection', {
     status: true,
