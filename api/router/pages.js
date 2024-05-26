@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const listLinks = require('../helpers/listLinks');
+const createEvent = require('../helpers/createEvent');
 
 router.use((req, res, next) => {
   res.setHeader('Content-Type', 'text/event-stream');
@@ -14,14 +15,21 @@ router.use((req, res, next) => {
 router.get('/', async (req, res) => {
   const { site } = req.query;
 
-  res.write('data: Connected\n\n');
+  await listLinks(res, site);
+
+  createEvent(res, 'Close Connection', {
+    status: true,
+    statusCode: 200,
+    isProgress: false,
+    message: 'Connection closed',
+    uniqueLink: null,
+  });
+
+  res.end();
 
   req.on('close', () => {
     console.log('Client disconnected');
   });
-
-  await listLinks(res, site);
-  res.end();
 });
 
 module.exports = router;
