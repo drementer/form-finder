@@ -1,17 +1,25 @@
 const getPage = require('./getPage');
 const filterLink = require('./filterLink');
 const extractLinks = require('./extractLinks');
+const createEvent = require('./createEvent');
 
-const listLinks = async (res, url, visitedLinks = new Set()) => {
+const listLinks = async (
+  res,
+  url,
+  visitedLinks = new Set(),
+  errorList = []
+) => {
   try {
-    if (visitedLinks.has(url)) return;
-
-    console.log('📌 ~ url ->', url);
-    console.log('📌 ~ has visited before ->', visitedLinks.has(url));
+    if (visitedLinks.has(url)) return { visitedLinks, errorList };
 
     visitedLinks.add(url);
-    res.write(`event: New Link\n`);
-    res.write(`data: ${url}\n\n`);
+    createEvent(res, 'New Link', {
+      status: true,
+      statusCode: 200,
+      isProgress: true,
+			message: 'New link found',
+      uniqueLink: url,
+    });
 
     const page = await getPage(url);
     const links = extractLinks(page);
@@ -24,15 +32,19 @@ const listLinks = async (res, url, visitedLinks = new Set()) => {
       validLinks.map((link) => listLinks(res, link, visitedLinks))
     );
   } catch (error) {
-    res.write(`event: Error\n`);
-    res.write(
-      `data: ${JSON.stringify({
-        message: error.message,
-        page: url,
-        link: error.input,
-      })}\n\n`
-    );
+    errorList.push({ message: error.message, page: url });
+
+    createEvent(res, 'Error', {
+      status: true,
+      statusCode: 200,
+      isProgress: true,
+      message: error.message,
+      page: url,
+      link: error.input,
+    });
   }
+
+  return { visitedLinks, errorList };
 };
 
 module.exports = listLinks;
