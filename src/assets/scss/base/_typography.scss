@@ -2,6 +2,8 @@ html {
   font-family: $root-font-family;
   font-size: $root-font-size--mobile;
 
+  color: rgba($gallery, 0.7);
+
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
@@ -13,6 +15,7 @@ html {
 
 .display {
   text-wrap: balance;
+  color: $gallery;
   @extend %display-xl;
 }
 h1,
@@ -29,10 +32,6 @@ h3,
 .heading-s {
   @extend %display-s;
 }
-h4,
-.heading-xs {
-  @extend %display-xs;
-}
 
 .text-l {
   @extend %text-l;
@@ -46,14 +45,12 @@ h4,
   -webkit-text-fill-color: initial;
 }
 
-.-text-gradient {
-	background: $text-gradient;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
 p {
   @extend %text-m;
+}
+
+strong {
+  color: $gallery;
 }
 
 .-muted {
@@ -62,5 +59,4 @@ p {
 
 ::selection {
   background-color: rgba($purple-pizzazz, 0.7);
-  -webkit-text-fill-color: initial;
 }
