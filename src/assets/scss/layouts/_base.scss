@@ -1,15 +1,15 @@
 body {
-	color: rgba($gallery, 0.7);
   background-color: $black;
 }
 
 [root] {
+  overflow: clip;
   @include padding(7rem 0 7rem);
 }
 
 main {
   margin: auto;
-  width: min(100% - 6rem, 55rem);
+  width: min(100% - 2rem, 55rem);
 
   border: 1px solid rgba($gallery, 0.15);
   border-bottom: 0;
