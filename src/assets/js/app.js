@@ -6,7 +6,7 @@ const searchInput = document.querySelector('[search-input]');
 const resultSection = document.querySelector('[result]');
 const resultList = document.querySelector('[result-list]');
 
-const apiAddress = 'http://localhost:3001/api/pages';
+const apiAddress = '/api/pages';
 
 const isValidUrl = (url) => /^(http|https):\/\/[^ "]+$/.test(url);
 
