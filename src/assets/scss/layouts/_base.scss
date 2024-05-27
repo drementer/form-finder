@@ -1,12 +1,15 @@
 body {
-  color: rgba($gallery, 0.7);
+	color: rgba($gallery, 0.7);
   background-color: $black;
 }
 
+[root] {
+  @include padding(7rem 0 7rem);
+}
+
 main {
-  @include padding(9rem 0 9rem);
   margin: auto;
-  width: min(100% - 2rem, 55rem);
+  width: min(100% - 6rem, 55rem);
 
   border: 1px solid rgba($gallery, 0.15);
   border-bottom: 0;
