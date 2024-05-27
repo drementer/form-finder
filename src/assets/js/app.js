@@ -1,6 +1,6 @@
 const urlParams = new URLSearchParams(window.location.search);
 const searchUrl = urlParams.get('url');
-const searchBox = document.querySelector('[search-box]');
+const searchInput = document.querySelector('[search-input]');
 const resultList = document.querySelector('[result-list]');
 const apiAddress = 'http://localhost:3001/api/pages';
 
@@ -34,14 +34,14 @@ const filterUrl = (url) => {
 };
 
 const handleSearch = () => {
-  const searchValue = searchBox.value;
-  if (searchValue) searchBox.value = filterUrl(searchValue);
+  const searchValue = searchInput.value;
+  if (searchValue) searchInput.value = filterUrl(searchValue);
 };
 
-searchBox.addEventListener('input', handleSearch);
+searchInput.addEventListener('input', handleSearch);
 
 if (searchUrl) {
   const filteredUrl = filterUrl(searchUrl);
-  searchBox.value = filteredUrl;
+  searchInput.value = filteredUrl;
   connectService(filteredUrl);
 }
