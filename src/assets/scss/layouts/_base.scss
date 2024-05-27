@@ -4,7 +4,8 @@ body {
 }
 
 main {
-  @include margin(9rem auto 9rem);
+  @include padding(9rem 0 9rem);
+  margin: auto;
   width: min(100% - 2rem, 55rem);
 
   border: 1px solid rgba($gallery, 0.15);
