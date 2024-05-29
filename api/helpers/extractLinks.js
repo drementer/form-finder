@@ -1,5 +1,12 @@
 const { parse } = require('node-html-parser');
 
+/**
+ * Extracts all hyperlink references (href) from the provided HTML string.
+ *
+ * @param {string} html - The HTML content to parse.
+ * @returns {string[]} - An array of hyperlink references.
+ * @throws {Error} - Throws an error if parsing fails.
+ */
 const extractLinks = (html) => {
   try {
     const parsedHtml = parse(html);
