@@ -1,4 +1,4 @@
-const getPage = require('./getPage');
+const fetchPage = require('./fetchPage');
 const filterLink = require('./filterLink');
 const extractLinks = require('./extractLinks');
 const createEvent = require('./createEvent');
@@ -17,11 +17,11 @@ const listLinks = async (
       status: true,
       statusCode: 200,
       isProgress: true,
-			message: 'New link found',
+      message: 'New link found',
       uniqueLink: url,
     });
 
-    const page = await getPage(url);
+    const page = await fetchPage(url);
     const links = extractLinks(page);
 
     const validLinks = links
