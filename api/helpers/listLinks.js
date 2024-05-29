@@ -28,7 +28,7 @@ const listLinks = async (
       .filter(Boolean);
 
     await Promise.allSettled(
-      validLinks.map((link) => listLinks(res, link, visitedLinks))
+      validLinks.map((link) => listLinks(res, link, visitedLinks, errorList))
     );
   } catch (error) {
     errorList.push({ message: error.message, page: url });
