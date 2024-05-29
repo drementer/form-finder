@@ -1,8 +1,9 @@
 const createEvent = async (res, event, data) => {
-  const id = new Date().getTime();
+  const id = Date.now();
+  const eventData = JSON.stringify(data);
 
   res.write(`event: ${event}\n`);
-  res.write(`data: ${JSON.stringify(data)}\n`);
+  res.write(`data: ${eventData}\n`);
   res.write(`id: ${id}\n\n`);
 };
 
