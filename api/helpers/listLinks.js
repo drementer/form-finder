@@ -23,10 +23,9 @@ const listLinks = async (
 
     const page = await fetchPage(url);
     const links = extractLinks(page);
-
     const validLinks = links
-      .filter((link) => filterLink(url, link))
-      .map((link) => new URL(link, url).href);
+      .map((link) => filterLink(url, link))
+      .filter(Boolean);
 
     await Promise.allSettled(
       validLinks.map((link) => listLinks(res, link, visitedLinks))
