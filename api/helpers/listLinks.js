@@ -31,7 +31,7 @@ const listLinks = async (
       validLinks.map((link) => listLinks(res, link, visitedLinks, errorList))
     );
   } catch (error) {
-    errorList.push({ message: error.message, page: url });
+    errorList.push({ message: error.message, page: url, link: error.input });
 
     createEvent(res, 'Error', {
       status: true,
