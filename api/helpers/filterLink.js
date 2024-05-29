@@ -28,8 +28,8 @@ const isSameDomain = (parentUrl, childUrl) => {
 };
 
 const filterLink = (parent, href) => {
-  if (isIgnoredLink(href)) return null;
-  if (isExternalLink(href)) return isSameDomain(parent, href) ? href : null;
+  if (isIgnoredLink(href)) return false;
+  if (isExternalLink(href)) return isSameDomain(parent, href) ? href : false;
 
   return new URL(href, parent).href;
 };
