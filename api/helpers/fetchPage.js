@@ -20,7 +20,7 @@ const fetchPage = async (url) => {
     const response = await httpClient.get(url);
     return response.data;
   } catch (error) {
-    throw new Error(`Failed to fetch URL: ${url} Error: ${error.message}`);
+    throw new Error(error.message);
   }
 };
 
