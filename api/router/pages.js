@@ -18,9 +18,6 @@ router.get('/', async (req, res) => {
   const { site } = req.query;
   const { processedUrls, errorLogs } = await pageScraper(res, site);
 
-  console.log('📌 ~ processedUrls ->', processedUrls);
-  console.log('📌 ~ errorLogs ->', errorLogs);
-
   createEvent(res, 'Close Connection', {
     status: true,
     statusCode: 200,
@@ -28,6 +25,8 @@ router.get('/', async (req, res) => {
     message: 'Connection closed',
     uniqueLink: null,
   });
+
+  console.log({ site, processedUrls, errorLogs });
 
   res.end();
 
