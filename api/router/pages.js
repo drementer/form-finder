@@ -6,7 +6,9 @@ const createEvent = require('../helpers/createEvent');
 
 router.use((req, res, next) => {
   res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Transfer-Encoding', 'chunked');
   res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('X-Accel-Buffering', 'no');
   res.setHeader('Connection', 'keep-alive');
 
   next();
