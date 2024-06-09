@@ -5,7 +5,7 @@
  * @param {string} event - The name of the event.
  * @param {Object} data - The data to send with the event.
  */
-const createEvent = async (res, event, data) => {
+const createEvent = (res, event, data) => {
   const id = Date.now();
   const eventData = JSON.stringify(data);
 
