@@ -6,35 +6,6 @@
   font-weight: bolder;
 }
 
-:where(sub, sup) {
-  position: relative;
-  font-size: 75%;
-  line-height: 0;
-  vertical-align: baseline;
-}
-
-:where(sub) {
-  bottom: -0.25em;
-}
-
-:where(sup) {
-  top: -0.5em;
-}
-
-:where(small) {
-  font-size: 80%;
-}
-
-:where(del) {
-  color: red;
-  text-decoration: line-through;
-}
-
-:where(ins) {
-  color: green;
-  text-decoration: none;
-}
-
 :where(figure) {
   margin: 0;
 }

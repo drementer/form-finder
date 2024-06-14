@@ -2,36 +2,61 @@ html {
   font-family: $root-font-family;
   font-size: $root-font-size--mobile;
 
+  color: rgba($gallery, 0.7);
+
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+
   @include mq(lg) {
     font-size: $root-font-size;
   }
 }
 
-/// 1.250 Major Third
-///
-/// @type map
-/// @access private
-///
-/// @link https://type-scale.com/
-$font-scales: (
-  'h1': 3.815,
-  'h2': 3.052,
-  'h3': 2.441,
-  'h4': 1.953,
-  'h5': 1.563,
-  'h6': 1.25,
-  'a': 1,
-  'p': 1,
-  'label': 0.875,
-) !default;
+.display {
+  text-wrap: balance;
+  color: $gallery;
+  @extend %display-xl;
+}
+h1,
+.heading-l {
+  text-wrap: balance;
+  @extend %display-l;
+}
+h2,
+.heading-m {
+  text-wrap: balance;
+  @extend %display-m;
+}
+h3,
+.heading-s {
+  @extend %display-s;
+}
 
-@each $element, $font-value in $font-scales {
-  #{$element} {
-    font-size: $font-value * 1rem;
-  }
+.text-l {
+  @extend %text-l;
+}
+.text-m {
+  @extend %text-m;
+}
+
+.-color-purple {
+  color: $purple-pizzazz;
+  -webkit-text-fill-color: initial;
+}
+
+p {
+  @extend %text-m;
+}
+
+strong {
+  color: $gallery;
+}
+
+.-muted {
+  opacity: 0.7;
 }
 
 ::selection {
-  color: hsl(0, 0%, 100%);
-  background-color: hsl(0, 0%, 0%);
+  background-color: rgba($purple-pizzazz, 0.7);
 }

@@ -17,7 +17,7 @@ $breakpoints: (
 $media-type: screen !default;
 
 /// @type boolean
-$debug-mode: true !default;
+$debug-mode: false !default;
 
 /// @type Map
 $debug-breakpoints: $breakpoints !default;
@@ -151,6 +151,7 @@ $debug-breakpoints: $breakpoints !default;
     margin: 0.5rem auto;
     padding: 0.5rem 1.2rem;
 
+    width: -moz-fit-content;
     width: fit-content;
 
     font-size: 0.875rem;

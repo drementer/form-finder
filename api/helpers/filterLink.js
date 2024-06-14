@@ -18,16 +18,20 @@ const ignorePatterns = [
 
 const regexIgnores = new RegExp(ignorePatterns.join('|'), 'i');
 
-const isExternalLink = (url) => url.startsWith('http') || url.startsWith('//');
+const isExternalLink = (url) => /^(http|\/\/)/.test(url);
 const isIgnoredLink = (url) => regexIgnores.test(url);
 
 const isSameDomain = (parentUrl, childUrl) => {
-  return new URL(parentUrl).hostname === new URL(childUrl).hostname;
+  const parentHostname = new URL(parentUrl).hostname;
+  const childHostname = new URL(childUrl).hostname;
+  return parentHostname === childHostname;
 };
 
-export default (parent, href) => {
-  if (isIgnoredLink(href)) return null;
-  if (isExternalLink(href)) return isSameDomain(parent, href) ? href : null;
+const filterLink = (parent, href) => {
+  if (isIgnoredLink(href)) return false;
+  if (isExternalLink(href)) return isSameDomain(parent, href) ? href : false;
 
   return new URL(href, parent).href;
 };
+
+module.exports = filterLink;

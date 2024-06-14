@@ -1,43 +1,38 @@
 const express = require('express');
 const router = express.Router();
 
-import listLinks from '../helpers/listLinks';
+const pageScraper = require('../services/pageScraper');
+const createEvent = require('../helpers/createEvent');
+
+router.use((req, res, next) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Transfer-Encoding', 'chunked');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('X-Accel-Buffering', 'no');
+  res.setHeader('Connection', 'keep-alive');
+
+  next();
+});
 
 router.get('/', async (req, res) => {
   const { site } = req.query;
-  const startTime = Date.now();
+  const { processedUrls, errorLogs } = await pageScraper(res, site);
 
-  const response = {
+  createEvent(res, 'Close Connection', {
     status: true,
     statusCode: 200,
-    errors: [],
-    executionTime: '',
-    uniqueLinks: null,
-  };
+    isProgress: false,
+    message: 'Connection closed',
+    uniqueLink: null,
+  });
 
-  if (!site) {
-    return res.status(400).json({
-      status: false,
-      statusCode: 400,
-      errors: [{ message: `The 'Site' parameter is required!'` }],
-      executionTime: null,
-      data: null,
-    });
-  }
+  console.log({ site, processedUrls, errorLogs });
 
-  try {
-    const { visitedLinks, errorList } = await listLinks(site);
+  res.end();
 
-    response.errors = errorList;
-    response.uniqueLinks = [...visitedLinks];
-  } catch (error) {
-    response.status = false;
-    response.statusCode = 500;
-    response.errors = [{ message: error.message, page: site }];
-  }
-
-  response.executionTime = `${Date.now() - startTime}ms`;
-  res.status(response.statusCode).json(response);
+  req.on('close', () => {
+    console.log('Client disconnected');
+  });
 });
 
 module.exports = router;
