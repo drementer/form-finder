@@ -7,7 +7,7 @@
   "scripts": {
     "dev:nodemon": "nodemon api/server.js",
     "dev:parcel": "parcel src/*.html --lazy --no-cache",
-    "build": "parcel build src/*.html --no-source-maps --no-cache --dist-dir public"
+    "build": "parcel build src/*.html --no-source-maps --no-cache"
   },
   "author": "drementer <klncarslanburak@gmail.com> (https://github.com/drementer)",
   "repository": {
