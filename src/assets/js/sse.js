@@ -1,6 +1,6 @@
 const urlParams = new URLSearchParams(window.location.search);
 const resultList = document.querySelector('[result-list]');
-const apiAddress = 'http://localhost:3001/api/pages';
+const apiAddress = 'https://fe.burak.gricreative.com/api/pages';
 let searchUrl = urlParams.get('url');
 
 const createLinkBox = (url) => {
