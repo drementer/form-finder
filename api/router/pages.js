@@ -19,12 +19,12 @@ router.get('/', async (req, res) => {
   const scraper = await pageScraper(res, site);
 
   createEvent(res, 'Close Connection', {
-    status: true,
-    statusCode: 200,
-    message: `Processing completed for ${site}`,
-    processedUrl: site,
-    processedLinks: [...scraper.processedLinks],
-    foundFormPages: [...scraper.foundFormPages],
+    status         : true,
+    statusCode     : 200,
+    message        : `Processing completed for ${site}`,
+    processedUrl   : site,
+    processedLinks : [...scraper.processedLinks],
+    foundFormPages : [...scraper.foundFormPages],
     processingQueue: 0,
   });
 

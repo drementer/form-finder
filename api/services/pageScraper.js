@@ -18,10 +18,10 @@ const pageScraper = async (
   try {
     processingLinks.add(baseUrl);
 
-    const retrievedPage = await fetchPage(baseUrl);
-		const parsedPage = parse(retrievedPage);
+    const retrievedPage  = await fetchPage(baseUrl);
+    const parsedPage     = parse(retrievedPage);
     const extractedLinks = extractLinks(parsedPage);
-    const haveForm = findForm(parsedPage);
+    const haveForm       = findForm(parsedPage);
     const linksToProcess = new Set();
 
     processedLinks.add(baseUrl);
@@ -42,23 +42,23 @@ const pageScraper = async (
       foundFormPages.add(baseUrl);
 
       createEvent(res, 'Form Page found', {
-        status: true,
-        statusCode: 200,
-        message: 'Form page found',
-        processedUrl: baseUrl,
-        foundFormPages: [...foundFormPages],
-				processedLinks: processedLinks.size,
-				processingQueue: processingQueue.size,
+        status         : true,
+        statusCode     : 200,
+        message        : 'Form page found',
+        processedUrl   : baseUrl,
+        foundFormPages : [...foundFormPages],
+        processedLinks : processedLinks.size,
+        processingQueue: processingQueue.size,
       });
     }
 
     createEvent(res, 'Scanned Link', {
-      status: true,
-      statusCode: 200,
-      message: 'Link scanned successfully',
-      processedUrl: baseUrl,
-      foundFormPages: [...foundFormPages],
-      processedLinks: processedLinks.size,
+      status         : true,
+      statusCode     : 200,
+      message        : 'Link scanned successfully',
+      processedUrl   : baseUrl,
+      foundFormPages : [...foundFormPages],
+      processedLinks : processedLinks.size,
       processingQueue: processingQueue.size,
     });
 
@@ -84,12 +84,12 @@ const pageScraper = async (
     });
 
     createEvent(res, 'Error', {
-      status: false,
-      statusCode: 500,
-      message: `Error on ${error.input}`,
-      processedUrl: baseUrl,
-      foundFormPages: [...foundFormPages],
-      processedLinks: processedLinks.size,
+      status         : false,
+      statusCode     : 500,
+      message        : `Error on ${error.input}`,
+      processedUrl   : baseUrl,
+      foundFormPages : [...foundFormPages],
+      processedLinks : processedLinks.size,
       processingQueue: processingQueue.size,
     });
   }
