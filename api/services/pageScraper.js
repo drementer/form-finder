@@ -1,7 +1,7 @@
 const { parse } = require('node-html-parser');
 
 const fetchPage = require('./fetchPage');
-const findForm = require('./findForm');
+const findForm = require('../helpers/findForm');
 const filterLink = require('../helpers/filterLink');
 const extractLinks = require('../helpers/extractLinks');
 const createEvent = require('../helpers/createEvent');
