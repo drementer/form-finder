@@ -1,4 +1,5 @@
 const fetchPage = require('./fetchPage');
+const findForm = require('./findForm');
 const filterLink = require('../helpers/filterLink');
 const extractLinks = require('../helpers/extractLinks');
 const createEvent = require('../helpers/createEvent');
@@ -6,66 +7,91 @@ const createEvent = require('../helpers/createEvent');
 const pageScraper = async (
   res,
   baseUrl,
-  processedUrls = new Set(),
-  scannedLinks = new Set(),
-  queue = new Set(),
+  processingLinks = new Set(),
+  processedLinks = new Set(),
+  foundFormPages = new Set(),
+  processingQueue = new Set(),
   errorLogs = []
 ) => {
   try {
-    processedUrls.add(baseUrl);
+    processingLinks.add(baseUrl);
 
     const retrievedPage = await fetchPage(baseUrl);
     const extractedLinks = extractLinks(retrievedPage);
+    const haveForm = findForm(retrievedPage);
     const linksToProcess = new Set();
 
-    queue.delete(baseUrl);
-    scannedLinks.add(baseUrl);
+    processedLinks.add(baseUrl);
+    processingQueue.delete(baseUrl);
 
     extractedLinks.map((link) => {
       const filteredLink = filterLink(baseUrl, link);
       if (!filteredLink) return;
 
-      const isVisited = processedUrls.has(filteredLink);
+      const isVisited = processingLinks.has(filteredLink);
       if (isVisited) return;
 
       linksToProcess.add(filteredLink);
-      queue.add(filteredLink);
+      processingQueue.add(filteredLink);
     });
 
-    createEvent(res, 'New Link', {
+    if (haveForm) {
+      foundFormPages.add(baseUrl);
+
+      createEvent(res, 'Form Page found', {
+        status: true,
+        statusCode: 200,
+        message: 'Form page found',
+        processedUrl: baseUrl,
+        foundFormPages: [...foundFormPages],
+				processedLinks: processedLinks.size,
+				processingQueue: processingQueue.size,
+      });
+    }
+
+    createEvent(res, 'Scanned Link', {
       status: true,
       statusCode: 200,
-      isProgress: true,
-      message: 'New link found',
-      uniqueLink: baseUrl,
-      visitedLinks: scannedLinks.size,
-      queue: queue.size,
+      message: 'Link scanned successfully',
+      processedUrl: baseUrl,
+      foundFormPages: [...foundFormPages],
+      processedLinks: processedLinks.size,
+      processingQueue: processingQueue.size,
     });
 
     await Promise.allSettled(
       [...linksToProcess].map((link) =>
-        pageScraper(res, link, processedUrls, scannedLinks, queue, errorLogs)
+        pageScraper(
+          res,
+          link,
+          processingLinks,
+          processedLinks,
+          foundFormPages,
+          processingQueue,
+          errorLogs
+        )
       )
     );
   } catch (error) {
-    queue.delete(baseUrl);
+    processingQueue.delete(baseUrl);
     errorLogs.push({
       message: error.message,
-      page: baseUrl,
+      processedUrl: baseUrl,
       link: error.input,
     });
 
     createEvent(res, 'Error', {
-      status: true,
-      statusCode: 200,
-      isProgress: true,
-      message: error.message,
-      page: baseUrl,
-      link: error.input,
+      status: false,
+      statusCode: 500,
+      message: `Error on ${error.input}`,
+      processedUrl: baseUrl,
+      foundFormPages: [...foundFormPages],
+      processedLinks: processedLinks.size,
+      processingQueue: processingQueue.size,
     });
   }
 
-  return { processedUrls, errorLogs };
+  return { processedLinks, foundFormPages, errorLogs };
 };
 
 module.exports = pageScraper;
