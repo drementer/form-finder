@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Form Finder WEB",
   "scripts": {
-    "dev": "parcel *.html --lazy --no-cache --dist-dir ../public",
-    "build": "parcel build src/*.html --no-source-maps --no-cache --dist-dir ../public"
+    "dev": "parcel src/*.html --lazy --no-cache --dist-dir ./public",
+    "build": "parcel build src/*.html --no-source-maps --no-cache --dist-dir ./public"
   },
   "dependencies": {},
   "devDependencies": {
