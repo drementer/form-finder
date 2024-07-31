@@ -1,0 +1,25 @@
+{
+  "name": "form-finder-web",
+  "version": "1.0.0",
+  "description": "Form Finder WEB",
+  "scripts": {
+    "dev": "parcel *.html --lazy --no-cache --dist-dir ../public",
+    "build": "parcel build src/*.html --no-source-maps --no-cache --dist-dir ../public"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.12.0",
+    "parcel": "^2.12.0"
+  },
+  "license": "MIT",
+  "author": "drementer <klncarslanburak@gmail.com> (https://github.com/drementer)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drementer/form-finder"
+  },
+  "bugs": {
+    "url": "https://github.com/drementer/form-finder/issues"
+  },
+  "homepage": "https://github.com/drementer/form-finder",
+  "browserslist": "> 0.5%, last 2 versions, not dead"
+}
