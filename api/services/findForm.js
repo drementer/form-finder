@@ -1,5 +1,3 @@
-const { parse } = require('node-html-parser');
-
 const inputSelector = 'input:not([type="hidden"]), textarea, select';
 const submitButtonSelector = 'input[type="submit"], button[type="submit"]';
 
@@ -15,8 +13,7 @@ const checkFormValidity = (form) => {
 
 const findForm = (html) => {
   try {
-    const parsedHtml = parse(html);
-    const forms = parsedHtml.querySelectorAll('form');
+    const forms = html.querySelectorAll('form');
     const validForms = forms.filter(checkFormValidity);
 
     return validForms.length;

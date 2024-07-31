@@ -1,3 +1,5 @@
+const { parse } = require('node-html-parser');
+
 const fetchPage = require('./fetchPage');
 const findForm = require('./findForm');
 const filterLink = require('../helpers/filterLink');
@@ -17,8 +19,9 @@ const pageScraper = async (
     processingLinks.add(baseUrl);
 
     const retrievedPage = await fetchPage(baseUrl);
-    const extractedLinks = extractLinks(retrievedPage);
-    const haveForm = findForm(retrievedPage);
+		const parsedPage = parse(retrievedPage);
+    const extractedLinks = extractLinks(parsedPage);
+    const haveForm = findForm(parsedPage);
     const linksToProcess = new Set();
 
     processedLinks.add(baseUrl);
