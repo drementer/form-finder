@@ -1,9 +1,20 @@
 .link-box {
   display: block;
-  padding: 0.8rem 1.5rem;
+
+  padding: 0.5rem 0;
 
   color: inherit;
   text-decoration: none;
-  background-color: rgba($gallery, 0.1);
-  border-radius: 5px;
+
+  &:hover span {
+    background-color: rgba($gallery, 0.2);
+  }
+
+  span {
+    display: block;
+    padding: 0.8rem 1.5rem;
+
+    border-radius: $border-radius;
+    background-color: rgba($gallery, 0.1);
+  }
 }
