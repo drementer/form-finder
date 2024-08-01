@@ -1,4 +1,6 @@
 .corner {
+  $corner-gap: -1px;
+
   position: absolute;
 
   width: 0.875rem;
@@ -41,6 +43,8 @@
 }
 
 .point {
+  $point-gap: -3px;
+
   position: absolute;
 
   width: 5px;
@@ -49,39 +53,41 @@
   background-color: $gallery;
 
   &.-top-left {
-    top: -3px;
-    left: -3px;
+    top: $point-gap;
+    left: $point-gap;
   }
 
   &.-top-right {
-    top: -3px;
-    right: -3px;
+    top: $point-gap;
+    right: $point-gap;
   }
 
   &.-bottom-right {
-    bottom: -3px;
-    right: -3px;
+    bottom: $point-gap;
+    right: $point-gap;
   }
 
   &.-bottom-left {
-    bottom: -3px;
-    left: -3px;
+    bottom: $point-gap;
+    left: $point-gap;
   }
 }
 
 .divider {
   $divider-offset: 25rem;
 
-  position: relative;
+  z-index: -1;
+  position: absolute;
+  top: 0;
 
-  height: 50px;
+  height: 100%;
   width: calc(100% + $divider-offset * 2);
   transform: translateX(-$divider-offset) skewX(45deg);
 
   background: repeating-linear-gradient(
     90deg,
-    mix($black, $gallery, 95%),
-    mix($black, $gallery, 95%) 4px,
+    mix($black, $gallery, 92%),
+    mix($black, $gallery, 92%) 4px,
     $black 4px,
     $black 10px
   );
