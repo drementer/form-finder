@@ -46,10 +46,6 @@
   font: inherit;
 }
 
-:where(textarea) {
-  resize: vertical;
-}
-
 [hidden] {
   display: none !important;
 }
