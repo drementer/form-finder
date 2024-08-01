@@ -1,5 +1,3 @@
-const { parse } = require('node-html-parser');
-
 /**
  * Extracts all hyperlink references (href) from the provided HTML string.
  *
@@ -9,9 +7,7 @@ const { parse } = require('node-html-parser');
  */
 const extractLinks = (html) => {
   try {
-    const parsedHtml = parse(html);
-    const anchorTags = parsedHtml.querySelectorAll('a');
-
+    const anchorTags = html.querySelectorAll('a');
     return anchorTags.map((anchor) => anchor.getAttribute('href'));
   } catch (error) {
     throw new Error(`Error parsing HTML: ${error.message}`);

@@ -1,0 +1,27 @@
+{
+  "name": "form-finder-api",
+  "version": "1.0.0",
+  "description": "Form Finder API",
+  "scripts": {
+    "dev": "nodemon --env-file=.env server.js",
+    "start": "node --env-file=.env server.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.8",
+    "express": "^4.19.2",
+    "node-html-parser": "^6.1.13"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "license": "MIT",
+  "author": "drementer <klncarslanburak@gmail.com> (https://github.com/drementer)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drementer/form-finder"
+  },
+  "bugs": {
+    "url": "https://github.com/drementer/form-finder/issues"
+  },
+  "homepage": "https://github.com/drementer/form-finder"
+}
