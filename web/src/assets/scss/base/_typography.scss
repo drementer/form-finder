@@ -13,31 +13,44 @@ html {
   }
 }
 
+h1,
 .display {
   text-wrap: balance;
-  color: $gallery;
-  @extend %display-xl;
-}
-h1,
-.heading-l {
-  text-wrap: balance;
-  @extend %display-l;
-}
-h2,
-.heading-m {
-  text-wrap: balance;
-  @extend %display-m;
-}
-h3,
-.heading-s {
-  @extend %display-s;
 }
 
-.text-l {
-  @extend %text-l;
+h1,
+h2,
+h3 {
+	margin: 1.5rem 0;
+  font-weight: 700;
+  line-height: 1;
 }
-.text-m {
-  @extend %text-m;
+
+.display {
+	margin: 2rem 0;
+  @include font-size(100px);
+  color: $gallery;
+}
+
+h1 {
+  @include font-size(70px);
+}
+
+h2 {
+  @include font-size(50px);
+}
+
+h3 {
+  @include font-size(32px);
+}
+
+p {
+	margin: 1em 0;
+  @include font-size(18px);
+}
+
+strong {
+  color: $gallery;
 }
 
 .-color-purple {
@@ -45,12 +58,12 @@ h3,
   -webkit-text-fill-color: initial;
 }
 
-p {
-  @extend %text-m;
+.-center {
+  text-align: center;
 }
 
-strong {
-  color: $gallery;
+.-balance {
+  text-wrap: balance;
 }
 
 .-muted {

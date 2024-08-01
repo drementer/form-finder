@@ -14,30 +14,3 @@ $root-font-size: 16px !default;
 /// @alias root-font-size
 $root-font-size--mobile: 14px !default;
 
-%display-xl {
-  @include font-size(100px);
-  line-height: 1;
-  font-weight: 700;
-}
-%display-l {
-  @include font-size(70px);
-  line-height: 1;
-  font-weight: 700;
-}
-%display-m {
-  @include font-size(50px);
-  font-weight: 700;
-}
-%display-s {
-  @include font-size(32px);
-  font-weight: 700;
-}
-
-%text-l {
-  @include font-size(18px);
-  font-weight: 400;
-}
-%text-m {
-  @include font-size(18px);
-  font-weight: 400;
-}
