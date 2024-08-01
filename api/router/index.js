@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const pages = require('./pages');
+const forms = require('./forms');
 
-router.use('/pages', pages);
+router.use('/forms', forms);
 
 module.exports = router;
