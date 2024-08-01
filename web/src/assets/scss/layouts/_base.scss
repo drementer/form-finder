@@ -17,6 +17,7 @@ main {
 }
 
 section {
+	z-index: 1;
   position: relative;
   @include padding(3rem);
 }
