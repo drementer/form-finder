@@ -10,7 +10,7 @@
   margin: auto;
 
   width: min(100%, 500px);
-  border-radius: 5px;
+  border-radius: $border-radius;
 
   background-color: rgba(mix($black, $gallery, 95%), 0.7);
 
