@@ -86,7 +86,7 @@ const pageScraper = async (
     createEvent(res, 'Error', {
       status         : false,
       statusCode     : 500,
-      message        : `Error on ${error.input}`,
+      message        : `Error ${error.message}`,
       processedUrl   : baseUrl,
       foundFormPages : [...foundFormPages],
       processedLinks : processedLinks.size,
