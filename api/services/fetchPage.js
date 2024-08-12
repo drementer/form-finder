@@ -4,6 +4,7 @@ const https = require('https');
 const axiosConfig = {
   httpsAgent: new https.Agent({ keepAlive: true }),
   responseType: 'text',
+  timeout: 15_000,
 };
 
 const httpClient = axios.create(axiosConfig);
