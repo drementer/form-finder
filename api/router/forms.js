@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
 		statusCode     : 200,
 		message        : `Processing completed for ${site}`,
 		processedUrl   : site,
-		processedLinks : [...scraper.processedLinks],
+		processedLinks : scraper.processedLinks.size,
 		foundFormPages : [...scraper.foundFormPages],
 		processingQueue: 0,
 	});
