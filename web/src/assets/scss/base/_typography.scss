@@ -55,7 +55,10 @@ strong {
 
 .-color-purple {
   color: $purple-pizzazz;
-  -webkit-text-fill-color: initial;
+}
+
+.-color-white {
+  color: $gallery;
 }
 
 .-center {
