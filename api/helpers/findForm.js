@@ -1,4 +1,4 @@
-const inputSelector = 'input:not([type="hidden"]), textarea, select';
+const inputSelector = 'input:not([type="hidden"]):not([type="submit"]), textarea, select';
 const submitButtonSelector = 'input[type="submit"], button[type="submit"]';
 
 const checkFormValidity = (form) => {
