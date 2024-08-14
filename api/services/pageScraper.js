@@ -77,6 +77,8 @@ const pageScraper = async (
     );
   } catch (error) {
     processingQueue.delete(baseUrl);
+		processedLinks.add(baseUrl);
+
     errorLogs.push({
       message: error.message,
       processedUrl: baseUrl,
