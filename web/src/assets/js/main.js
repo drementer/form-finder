@@ -13,6 +13,11 @@ const searchInput = document.querySelector('[search-input]');
   const urlParams = new URLSearchParams(window.location.search);
   const resultList = document.querySelector('[result-list]');
   const apiAddress = 'http://localhost:3001/api/forms';
+
+  const pageCounter = document.querySelector('[counter="pages"]');
+  const formCounter = document.querySelector('[counter="forms"]');
+  const queueCounter = document.querySelector('[counter="queue"]');
+
   let searchUrl = urlParams.get('url');
 
   const isValidUrl = (url) => /^(http|https):\/\/[^ "]+$/.test(url);
@@ -22,11 +27,11 @@ const searchInput = document.querySelector('[search-input]');
     return new URL(url).hostname;
   };
 
-  const createLinkBox = (url) => {
+  const createListItem = (url) => {
+    const listItem = document.createElement('li');
     const span = Object.assign(document.createElement('span'), {
       textContent: url.replace(`https://${searchUrl}`, ''),
     });
-
     const linkBox = Object.assign(document.createElement('a'), {
       href: url,
       target: '_blank',
@@ -36,19 +41,30 @@ const searchInput = document.querySelector('[search-input]');
     });
 
     linkBox.appendChild(span);
+    listItem.appendChild(linkBox);
 
-    return linkBox;
+    return listItem;
   };
 
   const appendNewLink = (event) => {
     const data = JSON.parse(event.data);
-    const link = createLinkBox(data.processedUrl);
+    const link = createListItem(data.processedUrl);
     resultList.appendChild(link);
+  };
+
+  const updateCounters = (event) => {
+    const data = JSON.parse(event.data);
+
+    pageCounter.textContent = data.processedLinks;
+    formCounter.textContent = data.foundFormPages.length;
+    queueCounter.textContent = data.processingQueue;
   };
 
   const connectService = (url) => {
     const eventSource = new EventSource(`${apiAddress}?site=https://${url}`);
+
     eventSource.addEventListener('Form Page found', appendNewLink);
+    eventSource.addEventListener('Scanned Link', updateCounters);
     eventSource.addEventListener('Close Connection', eventSource.close);
   };
 

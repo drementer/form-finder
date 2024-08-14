@@ -87,7 +87,6 @@
         <section class="search-bar" search-bar>
           <form id="search-form" method="GET">
             <div class="search-box">
-              <span class="search-box__protocol">https://</span>
               <input
                 id="search-input"
                 class="search-box__input"
@@ -120,18 +119,34 @@
           </form>
         </section>
         <section class="explanation">
-					<h2>How it works?</h2>
+          <h2>How it works?</h2>
           <p>
-						If a page has a form, with a minimum of two input fields and one
+            If a page has a form, with a minimum of two input fields and one
             submit button.
           </p>
-					<div class="divider"></div>
+          <div class="divider"></div>
         </section>
+
         <section class="result" result>
           <span class="corner -bottom-right"></span>
           <span class="corner -bottom-left"></span>
 
-          <output class="result__list" result-list></output>
+          <div class="counters">
+            <div class="counter">
+              <h3 class="counter__number -color-white" counter="queue">0</h3>
+              <span class="counter__label">Scan Queue</span>
+            </div>
+            <div class="counter">
+              <h3 class="counter__number -color-white" counter="pages">0</h3>
+              <span class="counter__label">Scanned Page</span>
+            </div>
+            <div class="counter">
+              <h3 class="counter__number -color-white" counter="forms">0</h3>
+              <span class="counter__label">Form Page</span>
+            </div>
+          </div>
+
+          <ol class="result__list" result-list></ol>
         </section>
       </main>
     </div>

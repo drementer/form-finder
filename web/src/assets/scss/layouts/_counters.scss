@@ -1,0 +1,11 @@
+.counters {
+  @extend %box-model;
+
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 2rem;
+
+  @include margin-bottom(2rem);
+  padding: 1.5rem;
+}

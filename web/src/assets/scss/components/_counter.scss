@@ -1,0 +1,16 @@
+.counter {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.5rem;
+
+  &__number,
+  &__label {
+    margin: 0;
+  }
+
+  &__number {
+    display: block;
+  }
+}

@@ -7,14 +7,10 @@
   text-decoration: none;
 
   &:hover span {
-    background-color: rgba($gallery, 0.2);
+    background-color: rgba($black-gallery, 1);
   }
 
   span {
-    display: block;
-    padding: 0.8rem 1.5rem;
-
-    border-radius: $border-radius;
-    background-color: rgba($gallery, 0.1);
+    @extend %box-model;
   }
 }
