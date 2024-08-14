@@ -1,5 +1,15 @@
 const searchInput = document.querySelector('[search-input]');
 
+const urlParams = new URLSearchParams(window.location.search);
+const resultList = document.querySelector('[result-list]');
+const apiAddress = 'http://localhost:3001/api/forms';
+
+const pageCounter = document.querySelector('[counter="pages"]');
+const formCounter = document.querySelector('[counter="forms"]');
+const queueCounter = document.querySelector('[counter="queue"]');
+
+let searchUrl = urlParams.get('url');
+
 const isValidUrl = (url) => /^(http|https):\/\/[^ "]+$/.test(url);
 
 const filterUrl = (url) => {
@@ -7,71 +17,57 @@ const filterUrl = (url) => {
   return new URL(url).hostname;
 };
 
-{
-  const handleSearch = () => {
-    if (!searchInput.checkValidity()) return;
-    searchInput.value = filterUrl(searchInput.value);
-  };
+const handleSearch = () => {
+  if (!searchInput.checkValidity()) return;
+  searchInput.value = filterUrl(searchInput.value);
+};
 
-  searchInput.addEventListener('input', handleSearch);
-}
+const createListItem = (url) => {
+  const listItem = document.createElement('li');
+  const span = Object.assign(document.createElement('span'), {
+    textContent: url.replace(`https://${searchUrl}`, ''),
+  });
+  const linkBox = Object.assign(document.createElement('a'), {
+    href: url,
+    target: '_blank',
+    rel: 'noopener noreferrer',
+    title: 'Open link in a new tab',
+    className: 'link-box',
+  });
 
-{
-  const urlParams = new URLSearchParams(window.location.search);
-  const resultList = document.querySelector('[result-list]');
-  const apiAddress = 'http://localhost:3001/api/forms';
+  linkBox.appendChild(span);
+  listItem.appendChild(linkBox);
 
-  const pageCounter = document.querySelector('[counter="pages"]');
-  const formCounter = document.querySelector('[counter="forms"]');
-  const queueCounter = document.querySelector('[counter="queue"]');
+  return listItem;
+};
 
-  let searchUrl = urlParams.get('url');
+const appendNewLink = (event) => {
+  const data = JSON.parse(event.data);
+  const link = createListItem(data.processedUrl);
+  resultList.appendChild(link);
+};
 
-  const createListItem = (url) => {
-    const listItem = document.createElement('li');
-    const span = Object.assign(document.createElement('span'), {
-      textContent: url.replace(`https://${searchUrl}`, ''),
-    });
-    const linkBox = Object.assign(document.createElement('a'), {
-      href: url,
-      target: '_blank',
-      rel: 'noopener noreferrer',
-      title: 'Open link in a new tab',
-      className: 'link-box',
-    });
+const updateCounters = (event) => {
+  const data = JSON.parse(event.data);
 
-    linkBox.appendChild(span);
-    listItem.appendChild(linkBox);
+  pageCounter.textContent = data.processedLinks;
+  formCounter.textContent = data.foundFormPages.length;
+  queueCounter.textContent = data.processingQueue;
+};
 
-    return listItem;
-  };
+const connectService = (url) => {
+  const eventSource = new EventSource(`${apiAddress}?site=https://${url}`);
 
-  const appendNewLink = (event) => {
-    const data = JSON.parse(event.data);
-    const link = createListItem(data.processedUrl);
-    resultList.appendChild(link);
-  };
+  eventSource.addEventListener('Form Page found', appendNewLink);
+  eventSource.addEventListener('Scanned Link', updateCounters);
+  eventSource.addEventListener('Error', updateCounters);
+  eventSource.addEventListener('Close Connection', eventSource.close);
+};
 
-  const updateCounters = (event) => {
-    const data = JSON.parse(event.data);
+searchInput.addEventListener('input', handleSearch);
 
-    pageCounter.textContent = data.processedLinks;
-    formCounter.textContent = data.foundFormPages.length;
-    queueCounter.textContent = data.processingQueue;
-  };
-
-  const connectService = (url) => {
-    const eventSource = new EventSource(`${apiAddress}?site=https://${url}`);
-
-    eventSource.addEventListener('Form Page found', appendNewLink);
-    eventSource.addEventListener('Scanned Link', updateCounters);
-    eventSource.addEventListener('Error', updateCounters);
-    eventSource.addEventListener('Close Connection', eventSource.close);
-  };
-
-  if (searchUrl) {
-    searchUrl = filterUrl(searchUrl);
-    searchInput.value = searchUrl;
-    connectService(searchUrl);
-  }
+if (searchUrl) {
+  searchUrl = filterUrl(searchUrl);
+  searchInput.value = searchUrl;
+  connectService(searchUrl);
 }
