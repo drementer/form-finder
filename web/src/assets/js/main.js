@@ -1,5 +1,12 @@
 const searchInput = document.querySelector('[search-input]');
 
+const isValidUrl = (url) => /^(http|https):\/\/[^ "]+$/.test(url);
+
+const filterUrl = (url) => {
+  if (!isValidUrl(url)) url = `https://${url}`;
+  return new URL(url).hostname;
+};
+
 {
   const handleSearch = () => {
     if (!searchInput.checkValidity()) return;
@@ -19,13 +26,6 @@ const searchInput = document.querySelector('[search-input]');
   const queueCounter = document.querySelector('[counter="queue"]');
 
   let searchUrl = urlParams.get('url');
-
-  const isValidUrl = (url) => /^(http|https):\/\/[^ "]+$/.test(url);
-
-  const filterUrl = (url) => {
-    if (!isValidUrl(url)) url = `https://${url}`;
-    return new URL(url).hostname;
-  };
 
   const createListItem = (url) => {
     const listItem = document.createElement('li');
@@ -65,6 +65,7 @@ const searchInput = document.querySelector('[search-input]');
 
     eventSource.addEventListener('Form Page found', appendNewLink);
     eventSource.addEventListener('Scanned Link', updateCounters);
+    eventSource.addEventListener('Error', updateCounters);
     eventSource.addEventListener('Close Connection', eventSource.close);
   };
 
