@@ -2,10 +2,4 @@
   z-index: 2;
   position: sticky;
   top: 0;
-
-  transition: transform 250ms ease-in-out;
-
-  &.-show {
-    transform: translateY(calc(100% / 3 * 2));
-  }
 }
