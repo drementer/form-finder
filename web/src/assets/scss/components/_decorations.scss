@@ -1,5 +1,5 @@
 .corner {
-  $corner-gap: -1px;
+  $corner-gap: -1;
 
   position: absolute;
 
@@ -16,29 +16,29 @@
   &.-top-left {
     --rotate: 0deg;
 
-    top: -1px;
-    left: -1px;
+    top: $corner-gap;
+    left: $corner-gap;
   }
 
   &.-top-right {
     --rotate: 90deg;
 
-    top: -1px;
-    right: -1px;
+    top: $corner-gap;
+    right: $corner-gap;
   }
 
   &.-bottom-right {
     --rotate: 180deg;
 
-    bottom: -1px;
-    right: -1px;
+    bottom: $corner-gap;
+    right: $corner-gap;
   }
 
   &.-bottom-left {
     --rotate: 270deg;
 
-    bottom: -1px;
-    left: -1px;
+    bottom: $corner-gap;
+    left: $corner-gap;
   }
 }
 
