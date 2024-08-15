@@ -1,20 +1,11 @@
-/// Color pallette
 $black: hsl(0, 0%, 0%) !default;
 $gallery: hsl(0, 0%, 93%) !default;
-$black-gallery: mix($black, $gallery, 90%);
-$soft-gallery: rgba($gallery, 0.1) !default;
 $purple-pizzazz: rgb(255, 0, 221) !default;
 
-/// Typography
-/// @type string | list
-$root-font-family: 'DM Sans', sans-serif !default;
+$black-gallery: mix($black, $gallery, 90%) !default;
+$soft-gallery: rgba($gallery, 0.15) !default;
 
-/// @type stirng
 $root-font-size: 16px !default;
-
-/// @type stirng
-/// @alias root-font-size
 $root-font-size--mobile: 14px !default;
 
-/// @type stirng
 $border-radius: 5px !default;
