@@ -70,4 +70,5 @@ if (searchUrl) {
   searchUrl = filterUrl(searchUrl);
   searchInput.value = searchUrl;
   connectService(searchUrl);
+  resultList.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
