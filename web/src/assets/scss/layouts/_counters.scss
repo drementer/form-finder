@@ -1,11 +1,17 @@
 .counters {
   @extend %box-model;
 
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  justify-content: space-evenly;
   gap: 2rem;
 
   @include margin-bottom(2rem);
   padding: 1.5rem;
+
+  @include mq(md) {
+    flex-direction: row;
+  }
 }
