@@ -1,42 +1,32 @@
-const searchInput = document.querySelector('[search-input]');
-
-const urlParams = new URLSearchParams(window.location.search);
-const resultList = document.querySelector('[result-list]');
 const apiAddress = 'http://localhost:3001/api/forms';
 
+const resultList = document.querySelector('[result-list]');
+const searchInput = document.querySelector('[search-input]');
 const pageCounter = document.querySelector('[counter="pages"]');
 const formCounter = document.querySelector('[counter="forms"]');
 const queueCounter = document.querySelector('[counter="queue"]');
+const linkTemplate = document.querySelector('template');
 
-let searchUrl = urlParams.get('url');
+const searchParameters = new URLSearchParams(window.location.search);
+let siteUrl = searchParameters.get('url');
 
-const isValidUrl = (url) => /^(http|https):\/\/[^ "]+$/.test(url);
-
-const filterUrl = (url) => {
-  if (!isValidUrl(url)) url = `https://${url}`;
-  return new URL(url).hostname;
+const sanitizeUrl = (url) => {
+  const hasProtocol = url.startsWith('http://') || url.startsWith('https://');
+  return new URL(hasProtocol ? url : `https://${url}`).hostname;
 };
 
 const handleSearch = () => {
   if (!searchInput.checkValidity()) return;
-  searchInput.value = filterUrl(searchInput.value);
+  searchInput.value = sanitizeUrl(searchInput.value);
 };
 
 const createListItem = (url) => {
-  const listItem = document.createElement('li');
-  const span = Object.assign(document.createElement('span'), {
-    textContent: url.replace(`https://${searchUrl}`, ''),
-  });
-  const linkBox = Object.assign(document.createElement('a'), {
-    href: url,
-    target: '_blank',
-    rel: 'noopener noreferrer',
-    title: 'Open link in a new tab',
-    className: 'link-box',
-  });
+  const listItem = document.importNode(linkTemplate.content, true);
+  const link = listItem.querySelector('a');
+  const span = listItem.querySelector('span');
 
-  linkBox.appendChild(span);
-  listItem.appendChild(linkBox);
+  link.href = url;
+  span.textContent = url.replace(`https://${siteUrl}`, '');
 
   return listItem;
 };
@@ -55,8 +45,8 @@ const updateCounters = (event) => {
   queueCounter.textContent = data.processingQueue;
 };
 
-const connectService = (url) => {
-  const eventSource = new EventSource(`${apiAddress}?site=https://${url}`);
+const connectService = () => {
+  const eventSource = new EventSource(`${apiAddress}?site=https://${siteUrl}`);
 
   eventSource.addEventListener('Form Page found', appendNewLink);
   eventSource.addEventListener('Scanned Link', updateCounters);
@@ -66,9 +56,10 @@ const connectService = (url) => {
 
 searchInput.addEventListener('input', handleSearch);
 
-if (searchUrl) {
-  searchUrl = filterUrl(searchUrl);
-  searchInput.value = searchUrl;
-  connectService(searchUrl);
+if (siteUrl) {
+  siteUrl = sanitizeUrl(siteUrl);
+  searchInput.value = siteUrl;
   resultList.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  connectService();
 }
