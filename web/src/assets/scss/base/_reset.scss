@@ -28,13 +28,6 @@
 :where(h1, h2, h3) {
   margin: 0;
   padding: 0;
-
-  font-weight: normal;
-}
-
-::placeholder {
-  color: inherit;
-  opacity: 0.54;
 }
 
 :where(img, picture, svg) {
@@ -42,7 +35,12 @@
   max-width: 100%;
 }
 
-:where(button, input, select) {
+::placeholder {
+  color: inherit;
+  opacity: 0.54;
+}
+
+:where(button, input) {
   font: inherit;
 }
 
