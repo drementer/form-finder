@@ -3,8 +3,8 @@ body {
 }
 
 [root] {
-  display: flex;
   overflow: clip;
+  display: flex;
   @include padding(7rem 0 7rem);
   min-height: 100dvh;
 }
