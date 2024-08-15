@@ -13,7 +13,7 @@ body {
   margin: auto;
   width: min(100% - 2rem, 55rem);
 
-  border: 1px solid $soft-gallery;
+  border: $border;
   border-bottom: 0;
   border-top: 0;
 }
