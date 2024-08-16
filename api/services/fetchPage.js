@@ -19,6 +19,11 @@ const httpClient = axios.create(axiosConfig);
 const fetchPage = async (url) => {
   try {
     const response = await httpClient.get(url);
+    const responseUrl = response.request.res.responseUrl;
+    const isSameOrigin = new URL(url).origin === new URL(responseUrl).origin;
+
+    if (!isSameOrigin) throw new Error('Redirected to a different origin');
+
     return response.data;
   } catch (error) {
     throw new Error(error.message);
