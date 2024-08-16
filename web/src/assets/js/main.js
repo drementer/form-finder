@@ -2,10 +2,14 @@ const apiAddress = 'http://localhost:3001/api/forms';
 
 const resultList = document.querySelector('[result-list]');
 const searchInput = document.querySelector('[search-input]');
+
+const counterContainer = document.querySelector('[counters]');
 const pageCounter = document.querySelector('[counter="pages"]');
 const formCounter = document.querySelector('[counter="forms"]');
 const queueCounter = document.querySelector('[counter="queue"]');
 const linkTemplate = document.querySelector('template');
+
+const progressClass = '-progress';
 
 const searchParameters = new URLSearchParams(window.location.search);
 let siteUrl = searchParameters.get('url');
@@ -51,7 +55,10 @@ const connectService = () => {
   eventSource.addEventListener('Form Page found', appendNewLink);
   eventSource.addEventListener('Scanned Link', updateCounters);
   eventSource.addEventListener('Error', updateCounters);
-  eventSource.addEventListener('Close Connection', eventSource.close);
+  eventSource.addEventListener('Close Connection', () => {
+    counterContainer.classList.remove(progressClass);
+    eventSource.close();
+  });
 };
 
 searchInput.addEventListener('input', handleSearch);
@@ -59,6 +66,8 @@ searchInput.addEventListener('input', handleSearch);
 if (siteUrl) {
   siteUrl = sanitizeUrl(siteUrl);
   searchInput.value = siteUrl;
+
+  counterContainer.classList.add(progressClass);
   resultList.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   connectService();
