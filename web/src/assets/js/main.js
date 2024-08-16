@@ -1,4 +1,4 @@
-const apiAddress = 'http://localhost:3001/api/forms';
+const apiAddress = 'https://fe.burak.gricreative.com/api/forms';
 
 const resultList = document.querySelector('[result-list]');
 const searchInput = document.querySelector('[search-input]');
