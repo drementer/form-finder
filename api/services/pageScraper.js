@@ -9,19 +9,21 @@ const createEvent = require('../helpers/createEvent');
 const pageScraper = async (
   res,
   baseUrl,
-  processingLinks = new Set(),
-  processedLinks = new Set(),
-  foundFormPages = new Set(),
+  parentUrl       = baseUrl,
+  uniqueLinks     = new Set(),
   processingQueue = new Set(),
-  errorLogs = []
+  processedLinks  = new Set(),
+  formPages       = new Set(),
+  errorLogs       = []
 ) => {
   try {
-    processingLinks.add(baseUrl);
+    uniqueLinks.add(baseUrl);
 
-    const retrievedPage  = await fetchPage(baseUrl);
-    const parsedPage     = parse(retrievedPage);
+    const retrievedPage = await fetchPage(baseUrl);
+    const parsedPage = parse(retrievedPage);
     const extractedLinks = extractLinks(parsedPage);
-    const haveForm       = findForm(parsedPage);
+    const forms = findForm(parsedPage);
+
     const linksToProcess = new Set();
 
     processedLinks.add(baseUrl);
@@ -31,35 +33,42 @@ const pageScraper = async (
       const filteredLink = filterLink(baseUrl, link);
       if (!filteredLink) return;
 
-      const isVisited = processingLinks.has(filteredLink);
+      const isVisited = uniqueLinks.has(filteredLink);
       if (isVisited) return;
 
       linksToProcess.add(filteredLink);
       processingQueue.add(filteredLink);
     });
 
-    if (haveForm) {
-      foundFormPages.add(baseUrl);
+    if (forms) {
+      const formPage = {
+        url: baseUrl,
+        title: parsedPage.querySelector('title').text.trim(),
+        forms,
+      };
 
-      createEvent(res, 'Form Page found', {
-        status         : true,
-        statusCode     : 200,
-        message        : 'Form page found',
-        processedUrl   : baseUrl,
-        foundFormPages : [...foundFormPages],
-        processedLinks : processedLinks.size,
-        processingQueue: processingQueue.size,
+      formPages.add(formPage);
+
+      createEvent(res, 'Form Page', {
+        statusCode         : 200,
+        message            : 'Form page found',
+        pageTitle          : formPage.title,
+        sourceUrl          : parentUrl,
+        processedUrl       : baseUrl,
+        processingQueueSize: processingQueue.size,
+        processedLinksSize : processedLinks.size,
+        forms,
       });
     }
 
     createEvent(res, 'Scanned Link', {
-      status         : true,
-      statusCode     : 200,
-      message        : 'Link scanned successfully',
-      processedUrl   : baseUrl,
-      foundFormPages : [...foundFormPages],
-      processedLinks : processedLinks.size,
-      processingQueue: processingQueue.size,
+      statusCode         : 200,
+      message            : 'Link scanned successfully',
+      sourceUrl          : parentUrl,
+      processedUrl       : baseUrl,
+      processingQueueSize: processingQueue.size,
+      processedLinksSize : processedLinks.size,
+      forms              : null,
     });
 
     await Promise.allSettled(
@@ -67,36 +76,36 @@ const pageScraper = async (
         pageScraper(
           res,
           link,
-          processingLinks,
-          processedLinks,
-          foundFormPages,
+          baseUrl,
+          uniqueLinks,
           processingQueue,
+          processedLinks,
+          formPages,
           errorLogs
         )
       )
     );
   } catch (error) {
     processingQueue.delete(baseUrl);
-		processedLinks.add(baseUrl);
+    processedLinks.add(baseUrl);
 
     errorLogs.push({
-      message: error.message,
+      message     : error.message,
+      sourceUrl   : parentUrl,
       processedUrl: baseUrl,
-      link: error.input,
     });
 
     createEvent(res, 'Error', {
-      status         : false,
-      statusCode     : 500,
-      message        : `Error ${error.message}`,
-      processedUrl   : baseUrl,
-      foundFormPages : [...foundFormPages],
-      processedLinks : processedLinks.size,
-      processingQueue: processingQueue.size,
+      statusCode         : 500,
+      message            : `Error ${error.message}`,
+      sourceUrl          : parentUrl,
+      processedUrl       : baseUrl,
+      processingQueueSize: processingQueue.size,
+      processedLinksSize : processedLinks.size,
     });
   }
 
-  return { processedLinks, foundFormPages, errorLogs };
+  return { processedLinks, formPages, errorLogs };
 };
 
 module.exports = pageScraper;

@@ -15,20 +15,21 @@ router.use((req, res, next) => {
 });
 
 router.get('/', async (req, res) => {
-	const { site } = req.query;
-	const scraper = await pageScraper(res, site);
+  const { site } = req.query;
+  const scraper = await pageScraper(res, site);
 
-	createEvent(res, 'Close Connection', {
-		status         : true,
-		statusCode     : 200,
-		message        : `Processing completed for ${site}`,
-		processedUrl   : site,
-		processedLinks : scraper.processedLinks.size,
-		foundFormPages : [...scraper.foundFormPages],
-		processingQueue: 0,
-	});
+  createEvent(res, 'Complete', {
+    statusCode        : 200,
+    message           : `Processing completed for ${site}`,
+    processedUrl      : site,
+    processedLinksSize: scraper.processedLinks.size,
+    formPageSize      : scraper.formPages.size,
+    errorSize         : scraper.errorLogs.length,
+    formPages         : [...scraper.formPages],
+    errorLogs         : [...scraper.errorLogs],
+  });
 
-	res.end();
+  res.end();
 });
 
 module.exports = router;
