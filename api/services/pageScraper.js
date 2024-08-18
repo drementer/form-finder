@@ -23,8 +23,35 @@ const pageScraper = async (
     const parsedPage = parse(retrievedPage);
     const extractedLinks = extractLinks(parsedPage);
     const forms = findForm(parsedPage);
+    const pageTitle = parsedPage.querySelector('title').text?.trim();
 
     const linksToProcess = new Set();
+
+    const sendEvent = (event, message, forms) => {
+      createEvent(res, event, {
+        statusCode         : 200,
+        message,
+        pageTitle,
+        sourceUrl          : parentUrl,
+        processedUrl       : baseUrl,
+        processingQueueSize: processingQueue.size,
+        processedLinksSize : processedLinks.size,
+        forms,
+      });
+    };
+
+    const scraper = (link) => {
+      return pageScraper(
+        res,
+        link,
+        baseUrl,
+        uniqueLinks,
+        processingQueue,
+        processedLinks,
+        formPages,
+        errorLogs
+      );
+    };
 
     processedLinks.add(baseUrl);
     processingQueue.delete(baseUrl);
@@ -41,67 +68,30 @@ const pageScraper = async (
     });
 
     if (forms) {
-      const formPage = {
-        url: baseUrl,
-        title: parsedPage.querySelector('title').text.trim(),
-        forms,
-      };
-
-      formPages.add(formPage);
-
-      createEvent(res, 'Form Page', {
-        statusCode         : 200,
-        message            : 'Form page found',
-        pageTitle          : formPage.title,
-        sourceUrl          : parentUrl,
-        processedUrl       : baseUrl,
-        processingQueueSize: processingQueue.size,
-        processedLinksSize : processedLinks.size,
-        forms,
-      });
+      formPages.add({ url: baseUrl, title: pageTitle, forms });
+      sendEvent('Form Page', 'Form page found', forms);
     }
 
-    createEvent(res, 'Scanned Link', {
-      statusCode         : 200,
-      message            : 'Link scanned successfully',
-      sourceUrl          : parentUrl,
-      processedUrl       : baseUrl,
-      processingQueueSize: processingQueue.size,
-      processedLinksSize : processedLinks.size,
-      forms              : null,
-    });
+    sendEvent('Scanned Link', 'Link scanned successfully');
 
-    await Promise.allSettled(
-      [...linksToProcess].map((link) =>
-        pageScraper(
-          res,
-          link,
-          baseUrl,
-          uniqueLinks,
-          processingQueue,
-          processedLinks,
-          formPages,
-          errorLogs
-        )
-      )
-    );
+    await Promise.allSettled([...linksToProcess].map(scraper));
   } catch (error) {
     processingQueue.delete(baseUrl);
     processedLinks.add(baseUrl);
 
     errorLogs.push({
-      message     : error.message,
-      sourceUrl   : parentUrl,
+      message: error.message,
+      sourceUrl: parentUrl,
       processedUrl: baseUrl,
     });
 
     createEvent(res, 'Error', {
-      statusCode         : 500,
-      message            : `Error ${error.message}`,
-      sourceUrl          : parentUrl,
-      processedUrl       : baseUrl,
+      statusCode: 500,
+      message: `Error ${error.message}`,
+      sourceUrl: parentUrl,
+      processedUrl: baseUrl,
       processingQueueSize: processingQueue.size,
-      processedLinksSize : processedLinks.size,
+      processedLinksSize: processedLinks.size,
     });
   }
 
