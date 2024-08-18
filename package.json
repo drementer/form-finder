@@ -1,0 +1,23 @@
+{
+  "name": "form-finder",
+  "version": "1.0.0",
+  "homepage": "https://github.com/drementer/form-finder",
+  "description": "Form Finder is a powerful, open-source tool that quickly crawls your website to find pages with forms. With a user-friendly interface and fast scanning.",
+  "keywords": [
+    "form",
+    "form-finder",
+    "web-crawler",
+    "web-scraper",
+    "web-crawling",
+    "web-scraping"
+  ],
+  "author": "drementer <klncarslanburak@gmail.com> (https://github.com/drementer)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drementer/form-finder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/drementer/form-finder/issues"
+  },
+  "license": "MIT"
+}
