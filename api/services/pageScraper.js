@@ -40,7 +40,7 @@ const pageScraper = async (
       });
     };
 
-    const scraper = (link) => {
+    const scrapLink = (link) => {
       return pageScraper(
         res,
         link,
@@ -74,7 +74,7 @@ const pageScraper = async (
 
     sendEvent('Scanned Link', 'Link scanned successfully');
 
-    await Promise.allSettled([...linksToProcess].map(scraper));
+    await Promise.allSettled([...linksToProcess].map(scrapLink));
   } catch (error) {
     processingQueue.delete(baseUrl);
     processedLinks.add(baseUrl);
