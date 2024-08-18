@@ -23,7 +23,7 @@ const expectedLinks = [
   '/3',
 ];
 
-describe('extractLinks', () => {
+describe('Extract Links', () => {
   it('should return an array of valid href links', () => {
     const links = extractLinks(document);
     expect(links).toEqual(expectedLinks);
