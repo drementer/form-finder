@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon --env-file=.env server.js",
     "start": "node --env-file=.env server.js",
-		"test:all": "jasmine --config=test/jasmine.json",
+		"test:all": "jasmine --config=jasmine.json",
 		"test:fetchPage": "npm run test:all test/fetchPage.test.js",
 		"test:extractLinks": "npm run test:all test/extractLinks.test.js",
 		"test:filterLink": "npm run test:all test/filterLink.test.js"
