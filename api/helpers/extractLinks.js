@@ -1,17 +1,20 @@
 /**
- * Extracts all hyperlink references (href) from the provided HTML string.
+ * Extracts and trims the href attribute from an anchor element.
  *
- * @param {string} html - The HTML content to parse.
- * @returns {string[]} - An array of hyperlink references.
- * @throws {Error} - Throws an error if parsing fails.
+ * @param {HTMLElement} anchor - The anchor element.
+ * @returns {string|null} The trimmed href attribute or null if not present.
+ */
+const extractHref = (anchor) => anchor.getAttribute('href')?.trim();
+
+/**
+ * Extracts valid href links from a parsed HTML document.
+ *
+ * @param {HTMLElement[]} html - The parsed HTML document.
+ * @returns {Array} The list of valid href links.
  */
 const extractLinks = (html) => {
-  try {
-    const anchorTags = html.querySelectorAll('a');
-    return anchorTags.map((anchor) => anchor.getAttribute('href'));
-  } catch (error) {
-    throw new Error(`Error parsing HTML: ${error.message}`);
-  }
+  const anchorTags = html.querySelectorAll('a');
+  return anchorTags.map(extractHref).filter(Boolean);
 };
 
 module.exports = extractLinks;
