@@ -25,8 +25,7 @@ const fetchPage = async (url) => {
 
     const responseUrl = response.request.res.responseUrl;
     const isSameOrigin = new URL(url).origin === new URL(responseUrl).origin;
-    if (!isSameOrigin)
-      throw new Error('Redirected to a different origin');
+    if (!isSameOrigin) throw new Error('Redirected to a different origin');
 
     const contentType = response.headers['content-type'] || '';
     const isHtmlContent = contentType.includes('text/html');
