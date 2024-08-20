@@ -44,18 +44,18 @@ const appendNewLink = (event) => {
 const updateCounters = (event) => {
   const data = JSON.parse(event.data);
 
-  pageCounter.textContent = data.processedLinks;
-  formCounter.textContent = data.foundFormPages.length;
-  queueCounter.textContent = data.processingQueue;
+  pageCounter.textContent = data.processedLinksSize;
+  formCounter.textContent = data.formPages.length;
+  queueCounter.textContent = data.processingQueueSize;
 };
 
 const connectService = () => {
   const eventSource = new EventSource(`${apiAddress}?site=https://${siteUrl}`);
 
-  eventSource.addEventListener('Form Page found', appendNewLink);
+  eventSource.addEventListener('Form Page', appendNewLink);
   eventSource.addEventListener('Scanned Link', updateCounters);
   eventSource.addEventListener('Error', updateCounters);
-  eventSource.addEventListener('Close Connection', () => {
+  eventSource.addEventListener('Complete', () => {
     counterContainer.classList.remove(progressClass);
     eventSource.close();
   });
