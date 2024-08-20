@@ -9,12 +9,12 @@ const createEvent = require('../helpers/createEvent');
 const pageScraper = async (
   res,
   baseUrl,
-  parentUrl       = baseUrl,
-  uniqueLinks     = new Set(),
+  parentUrl = baseUrl,
+  uniqueLinks = new Set(),
   processingQueue = new Set(),
-  processedLinks  = new Set(),
-  formPages       = new Set(),
-  errorLogs       = []
+  processedLinks = new Set(),
+  formPages = new Set(),
+  errorLogs = []
 ) => {
   try {
     uniqueLinks.add(baseUrl);
@@ -36,6 +36,7 @@ const pageScraper = async (
         processedUrl       : baseUrl,
         processingQueueSize: processingQueue.size,
         processedLinksSize : processedLinks.size,
+        formPageSize       : formPages.size,
         forms,
       });
     };
@@ -92,6 +93,7 @@ const pageScraper = async (
       processedUrl: baseUrl,
       processingQueueSize: processingQueue.size,
       processedLinksSize: processedLinks.size,
+      formPageSize: formPages.size,
     });
   }
 
