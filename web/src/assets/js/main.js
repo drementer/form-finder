@@ -45,7 +45,7 @@ const updateCounters = (event) => {
   const data = JSON.parse(event.data);
 
   pageCounter.textContent = data.processedLinksSize;
-  formCounter.textContent = data.formPages.length;
+  formCounter.textContent = data.formPages.size;
   queueCounter.textContent = data.processingQueueSize;
 };
 
