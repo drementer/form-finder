@@ -4,7 +4,7 @@ const https = require('https');
 const httpClient = axios.create({
   httpsAgent: new https.Agent({ keepAlive: true }),
   responseType: 'text',
-  timeout: 15000,
+  timeout: 15_000,
   headers: {
     Accept: 'text/html',
     'User-Agent':

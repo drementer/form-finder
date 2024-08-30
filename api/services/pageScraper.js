@@ -2,102 +2,63 @@ const { parse } = require('node-html-parser');
 
 const fetchPage = require('./fetchPage');
 const findForm = require('../helpers/findForm');
-const filterLink = require('../helpers/filterLink');
+const findAnchorTags = require('../helpers/findAnchorTags');
 const extractLinks = require('../helpers/extractLinks');
-const createEvent = require('../helpers/createEvent');
+const sendEvent = require('../helpers/sendEvent');
 
-const pageScraper = async (
-  res,
-  baseUrl,
-  parentUrl = baseUrl,
-  uniqueLinks = new Set(),
-  processingQueue = new Set(),
-  processedLinks = new Set(),
-  formPages = new Set(),
-  errorLogs = []
-) => {
+const defaultContext = {
+  res: null,
+  baseUrl: null,
+  parentUrl: null,
+  uniqueLinks: new Set(),
+  processingQueue: new Set(),
+  processedLinks: new Set(),
+  formPages: new Set(),
+  errorLogs: [],
+};
+
+const pageScraper = async (context) => {
   try {
-    uniqueLinks.add(baseUrl);
+    context = { ...defaultContext, ...context };
+    context.uniqueLinks.add(context.baseUrl);
 
-    const retrievedPage = await fetchPage(baseUrl);
+    const retrievedPage = await fetchPage(context.baseUrl);
     const parsedPage = parse(retrievedPage);
-    const extractedLinks = extractLinks(parsedPage);
+    const anchorTags = findAnchorTags(parsedPage);
+    const linksToProcess = extractLinks(context, anchorTags);
     const forms = findForm(parsedPage);
     const pageTitle = parsedPage.querySelector('title').text?.trim();
 
-    const linksToProcess = new Set();
+    const scrapLink = (link) => pageScraper({ ...context, baseUrl: link });
 
-    const sendEvent = (event, message, forms) => {
-      createEvent(res, event, {
-        statusCode         : 200,
-        message,
-        pageTitle,
-        sourceUrl          : parentUrl,
-        processedUrl       : baseUrl,
-        processingQueueSize: processingQueue.size,
-        processedLinksSize : processedLinks.size,
-        formPageSize       : formPages.size,
-        forms,
-      });
-    };
-
-    const scrapLink = (link) => {
-      return pageScraper(
-        res,
-        link,
-        baseUrl,
-        uniqueLinks,
-        processingQueue,
-        processedLinks,
-        formPages,
-        errorLogs
-      );
-    };
-
-    processedLinks.add(baseUrl);
-    processingQueue.delete(baseUrl);
-
-    extractedLinks.map((link) => {
-      const filteredLink = filterLink(baseUrl, link);
-      if (!filteredLink) return;
-
-      const isVisited = uniqueLinks.has(filteredLink);
-      if (isVisited) return;
-
-      linksToProcess.add(filteredLink);
-      processingQueue.add(filteredLink);
-    });
+    linksToProcess.forEach((link) => context.processingQueue.add(link));
+    context.processedLinks.add(context.baseUrl);
+    context.processingQueue.delete(context.baseUrl);
 
     if (forms) {
-      formPages.add({ url: baseUrl, title: pageTitle, forms });
-      sendEvent('Form Page', 'Form page found', forms);
+      const customFields = { forms };
+
+      context.formPages.add({ url: context.baseUrl, title: pageTitle, forms });
+      sendEvent('Form Page', 'Form page found', { ...context, customFields });
     }
 
-    sendEvent('Scanned Link', 'Link scanned successfully');
+    sendEvent('Scanned Link', 'Link scanned successfully', context);
 
     await Promise.allSettled([...linksToProcess].map(scrapLink));
   } catch (error) {
-    processingQueue.delete(baseUrl);
-    processedLinks.add(baseUrl);
+    context.processingQueue.delete(context.baseUrl);
+    context.processedLinks.add(context.baseUrl);
 
-    errorLogs.push({
+    context.errorLogs.push({
       message: error.message,
-      sourceUrl: parentUrl,
-      processedUrl: baseUrl,
+      sourceUrl: context.parentUrl,
+      processedUrl: context.baseUrl,
     });
 
-    createEvent(res, 'Error', {
-      statusCode: 500,
-      message: `Error ${error.message}`,
-      sourceUrl: parentUrl,
-      processedUrl: baseUrl,
-      processingQueueSize: processingQueue.size,
-      processedLinksSize: processedLinks.size,
-      formPageSize: formPages.size,
-    });
+    sendEvent('Error', `Error ${error.message}`, context);
   }
 
-  return { processedLinks, formPages, errorLogs };
+  return context;
 };
 
 module.exports = pageScraper;
