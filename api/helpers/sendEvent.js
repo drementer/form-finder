@@ -10,6 +10,7 @@ const createEventData = (message, context) => ({
 	message,
   processedUrl: context.baseUrl,
   parentUrl: context.parentUrl,
+  pageTitle: context.pageTitle,
   processingQueueSize: context.processingQueue.size,
   processedLinksSize: context.processedLinks.size,
   formPageSize: context.formPages.size,

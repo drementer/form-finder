@@ -31,9 +31,10 @@ const pageScraper = async (context) => {
 
     const scrapLink = (link) => pageScraper({ ...context, baseUrl: link });
 
-    linksToProcess.forEach((link) => context.processingQueue.add(link));
+    context.pageTitle = pageTitle;
     context.processedLinks.add(context.baseUrl);
     context.processingQueue.delete(context.baseUrl);
+    linksToProcess.forEach((link) => context.processingQueue.add(link));
 
     if (forms) {
       const customFields = { forms };
