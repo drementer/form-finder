@@ -9,6 +9,7 @@ const sendEvent = require('../helpers/sendEvent');
 const defaultContext = {
   res: null,
   baseUrl: null,
+  pageTitle: null,
   parentUrl: null,
   uniqueLinks: new Set(),
   processingQueue: new Set(),
@@ -29,7 +30,9 @@ const pageScraper = async (context) => {
     const forms = findForm(parsedPage);
     const pageTitle = parsedPage.querySelector('title').text?.trim();
 
-    const scrapLink = (link) => pageScraper({ ...context, baseUrl: link });
+    const scrapLink = (link) => {
+      return pageScraper({ ...context, baseUrl: link, parentUrl: context.baseUrl,  });
+    };
 
     context.pageTitle = pageTitle;
     context.processedLinks.add(context.baseUrl);
