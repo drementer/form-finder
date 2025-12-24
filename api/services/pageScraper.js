@@ -6,7 +6,8 @@ const findAnchorTags = require('../helpers/findAnchorTags');
 const extractLinks = require('../helpers/extractLinks');
 const sendEvent = require('../helpers/sendEvent');
 
-const defaultContext = {
+// Factory function to create fresh context for each request
+const createDefaultContext = () => ({
   res: null,
   baseUrl: null,
   pageTitle: null,
@@ -16,11 +17,11 @@ const defaultContext = {
   processedLinks: new Set(),
   formPages: new Set(),
   errorLogs: [],
-};
+});
 
 const pageScraper = async (context) => {
   try {
-    context = { ...defaultContext, ...context };
+    context = { ...createDefaultContext(), ...context };
     context.uniqueLinks.add(context.baseUrl);
 
     const retrievedPage = await fetchPage(context.baseUrl);
@@ -31,7 +32,11 @@ const pageScraper = async (context) => {
     const pageTitle = parsedPage.querySelector('title').text?.trim();
 
     const scrapLink = (link) => {
-      return pageScraper({ ...context, baseUrl: link, parentUrl: context.baseUrl,  });
+      return pageScraper({
+        ...context,
+        baseUrl: link,
+        parentUrl: context.baseUrl,
+      });
     };
 
     context.pageTitle = pageTitle;
