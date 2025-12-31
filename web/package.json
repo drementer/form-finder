@@ -4,12 +4,12 @@
   "description": "Form Finder WEB",
   "scripts": {
     "dev": "parcel src/*.html --lazy --no-cache --dist-dir ./public",
-    "build": "parcel build src/*.html --no-source-maps --no-cache --dist-dir ./public"
+    "build": "parcel build src/*.html --no-source-maps --no-cache"
   },
-  "dependencies": {},
   "devDependencies": {
     "@parcel/transformer-sass": "^2.12.0",
-    "parcel": "^2.12.0"
+    "parcel": "^2.12.0",
+    "svgo": "^3.3.2"
   },
   "license": "MIT",
   "author": "drementer <klncarslanburak@gmail.com> (https://github.com/drementer)",

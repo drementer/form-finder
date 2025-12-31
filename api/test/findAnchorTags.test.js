@@ -1,5 +1,5 @@
 const { parse } = require('node-html-parser');
-const extractLinks = require('../helpers/extractLinks');
+const findAnchorTags = require('../helpers/findAnchorTags');
 
 const document = parse(`
   <a href="https://example.com/1">Full URL</a>
@@ -25,7 +25,7 @@ const expectedLinks = [
 
 describe('Extract Links', () => {
   it('should return an array of valid href links', () => {
-    const links = extractLinks(document);
+    const links = findAnchorTags(document);
     expect(links).toEqual(expectedLinks);
   });
 });
